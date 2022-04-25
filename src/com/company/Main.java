@@ -2,6 +2,7 @@ package com.company;
 
 import Helper.CustomerQuery;
 import Helper.JDBC;
+import Model.User;
 
 import java.sql.SQLException;
 
@@ -11,7 +12,7 @@ public class Main {
 
         JDBC.openConnection();
 
-        CustomerQuery.select(29);
+        User.login("admin", "admin");
 
         JDBC.closeConnection();
     }

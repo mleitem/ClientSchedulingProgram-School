@@ -11,13 +11,7 @@ public class Main {
 
         JDBC.openConnection();
 
-        int rowsAffected = CustomerQuery.updateName(4, "Derrick Barrie");
-        if(rowsAffected > 0) {
-            System.out.println("Update Successful!");
-        }
-        else{
-            System.out.println("Update Failed!");
-        }
+        CustomerQuery.select(29);
 
         JDBC.closeConnection();
     }

@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -52,11 +53,16 @@ public class LoginController implements Initializable {
 
         if (login(username, password) == true) {
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
             scene = loader.load();
             Scene root = new Scene(scene);
             stage.setScene(root);
             stage.show();
+        } else {
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
+            noSelectionAlert.setTitle("Error");
+            noSelectionAlert.setContentText("Invalid username or password.");
+            noSelectionAlert.showAndWait();
         }
     }
 

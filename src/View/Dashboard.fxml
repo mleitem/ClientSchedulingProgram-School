@@ -9,32 +9,43 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="670.0" prefWidth="827.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.DashboardController">
+<AnchorPane prefHeight="662.0" prefWidth="969.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.DashboardController">
    <children>
-      <TableView fx:id="appointmentstableview" layoutX="85.0" layoutY="66.0" prefHeight="218.0" prefWidth="659.0">
+      <TableView fx:id="appointmentstableview" layoutX="40.0" layoutY="71.0" prefHeight="218.0" prefWidth="890.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="appointmentidcol" prefWidth="101.0" text="Appointment ID" />
+          <TableColumn fx:id="titlecol" prefWidth="92.0" text="Title" />
+            <TableColumn fx:id="descriptioncol" prefWidth="102.0" text="Description" />
+            <TableColumn fx:id="locationcol" prefWidth="97.0" text="Location" />
+            <TableColumn fx:id="contactcol" prefWidth="114.0" text="Contact" />
+            <TableColumn fx:id="typecol" prefWidth="126.0" text="Type" />
+            <TableColumn fx:id="startcol" prefWidth="72.0" text="Start Time" />
+            <TableColumn fx:id="endcol" prefWidth="59.0" text="End Time" />
+            <TableColumn fx:id="customeridcol" prefWidth="78.0" text="Customer ID" />
+            <TableColumn fx:id="useridcol" prefWidth="48.0" text="User ID" />
         </columns>
       </TableView>
-      <TableView fx:id="customertableview" layoutX="86.0" layoutY="397.0" prefHeight="218.0" prefWidth="658.0">
+      <TableView fx:id="customertableview" layoutX="40.0" layoutY="395.0" prefHeight="218.0" prefWidth="890.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="customeridcol1" prefWidth="75.0" text="Customer ID" />
+          <TableColumn fx:id="namecol" prefWidth="188.0" text="Name" />
+            <TableColumn fx:id="addresscol" prefWidth="352.0" text="Address" />
+            <TableColumn fx:id="postalcodecol" prefWidth="81.0" text="Postal Code" />
+            <TableColumn fx:id="phonecol" prefWidth="114.0" text="Phone Number" />
+            <TableColumn fx:id="dividcol" prefWidth="79.0" text="Division ID" />
         </columns>
       </TableView>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="356.0" layoutY="29.0" prefHeight="27.0" prefWidth="119.0" text="Appointments" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="425.0" layoutY="29.0" prefHeight="27.0" prefWidth="119.0" text="Appointments" textAlignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="372.0" layoutY="360.0" text="Customers" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="443.0" layoutY="357.0" text="Customers" textAlignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <HBox alignment="CENTER" layoutX="544.0" layoutY="34.0" prefHeight="0.0" prefWidth="200.0" spacing="20.0">
+      <HBox alignment="CENTER" layoutX="730.0" layoutY="34.0" prefHeight="0.0" prefWidth="200.0" spacing="20.0">
          <children>
             <RadioButton mnemonicParsing="false" text="Week">
                <toggleGroup>

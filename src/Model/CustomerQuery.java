@@ -1,4 +1,9 @@
-package Helper;
+package Model;
+
+import Helper.JDBC;
+import Model.Appointment;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,12 +57,14 @@ public abstract class CustomerQuery {
             String postalCode = rs.getString("Postal_Code");
             String phone = rs.getString("Phone");
             int divId = rs.getInt("Division_ID");
-            System.out.print(customerId + " | ");
+            /*System.out.print(customerId + " | ");
             System.out.print(customerName + " | ");
             System.out.print(address + " | ");
             System.out.print(postalCode + " | ");
             System.out.print(phone + " | ");
-            System.out.print(divId + "\n");
+            System.out.print(divId + "\n");*/
+            Customer customer = new Customer(customerId, customerName, address, postalCode, phone, divId);
+            Inventory.addCustomer(customer);
         }
     }
 

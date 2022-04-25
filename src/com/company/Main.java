@@ -1,15 +1,11 @@
 package com.company;
 
-import Helper.CustomerQuery;
 import Helper.JDBC;
-import Model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.sql.SQLException;
 
 public class Main extends Application {
 

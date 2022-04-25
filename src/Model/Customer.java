@@ -1,5 +1,8 @@
 package Model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Customer {
 
     private int id;
@@ -66,8 +69,20 @@ public class Customer {
         this.divId = divId;
     }
 
-    public String toString(){
-        return "[" + id + "]" + name;
+    protected static ObservableList<Appointment> associatedAppointments = FXCollections.observableArrayList();
+
+    public static void addAppointment(Appointment newAppointment) {
+        associatedAppointments.add(newAppointment);
     }
+
+    public static ObservableList<Appointment> getAllAppointments() {
+        return associatedAppointments;
+    }
+
+    public static void deleteAppointment(Appointment deleteAppointment) {
+        associatedAppointments.remove(deleteAppointment);
+    }
+
+
 
 }

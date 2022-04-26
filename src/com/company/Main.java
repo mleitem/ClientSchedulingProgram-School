@@ -18,9 +18,9 @@ import java.util.Date;
 
 public class Main extends Application {
 
-    //public static void main(String[] args) { launch(args); }
+    public static void main(String[] args) { launch(args); }
 
-    public static void main(String[] args) throws SQLException, ParseException {
+    /*public static void main(String[] args) throws SQLException, ParseException {
         JDBC.openConnection();
 
         LocalDate startDate = LocalDate.of(2021, 04, 24);
@@ -40,11 +40,11 @@ public class Main extends Application {
         //AppointmentQuery.deleteAppointment(3);
 
         JDBC.closeConnection();
-    }
+    }*/
 
     @Override
     public void start(Stage stage) throws Exception {
-        //JDBC.openConnection();
+        JDBC.openConnection();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);

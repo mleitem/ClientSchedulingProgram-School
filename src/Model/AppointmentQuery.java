@@ -5,6 +5,8 @@ import Helper.JDBC;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 public abstract class AppointmentQuery {
@@ -59,6 +61,24 @@ public abstract class AppointmentQuery {
         int rowsAffected = ps.executeUpdate();
 
         return rowsAffected;
+    }
+
+    public static void viewAppointmentByMonth(int month) throws SQLException {
+        /*Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int newMonth = localDate.getMonthValue();*/
+
+        String sql = "SELECT * FROM appointments WHERE MONTH(start) = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, month);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()){
+            String title = rs.getString("Title");
+            System.out.println(title);
+        }
+
+
+
     }
 
 

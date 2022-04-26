@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 public abstract class CustomerQuery {
 
@@ -46,7 +47,7 @@ public abstract class CustomerQuery {
         return rowsAffected;
     }
 
-    public static void select() throws SQLException {
+    public static void allCustomers() throws SQLException {
         String sql = "SELECT * FROM customers";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery(sql);
@@ -68,7 +69,33 @@ public abstract class CustomerQuery {
         }
     }
 
-    public static void select(int divId) throws SQLException {
+    public static void allAppointments() throws SQLException {
+        String sql = "SELECT * FROM appointments";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while (rs.next()) {
+            int appointmentId = rs.getInt("Appointment_ID");
+            String title = rs.getString("Title");
+            String description = rs.getString("Description");
+            String location = rs.getString("Location");
+            String type = rs.getString("Type");
+            Date start = rs.getDate("Start");
+            Date end = rs.getDate("End");
+            int customerId1 = rs.getInt("Customer_ID");
+            int userId = rs.getInt("User_ID");
+            int contactId = rs.getInt("Contact_ID");
+            /*System.out.print(customerId + " | ");
+            System.out.print(customerName + " | ");
+            System.out.print(address + " | ");
+            System.out.print(postalCode + " | ");
+            System.out.print(phone + " | ");
+            System.out.print(divId + "\n");*/
+            Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId1,userId, contactId);
+            Customer.addAppointment(appointment);
+        }
+    }
+
+    /*public static void select(int divId) throws SQLException {
         String sql = "SELECT * FROM customers WHERE Division_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, divId);
@@ -87,6 +114,6 @@ public abstract class CustomerQuery {
             System.out.print(phone + " | ");
             System.out.print(divisionId + "\n");
         }
-    }
+    }*/
 
 }

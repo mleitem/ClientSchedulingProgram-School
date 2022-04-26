@@ -86,10 +86,14 @@ public class DashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
-            CustomerQuery.select();
+            CustomerQuery.allCustomers();
+            CustomerQuery.allAppointments();
 
             if (Inventory.getAllCustomers().size() > 1) {
                 System.out.println("Customer Success!");
+            }
+            if (Customer.getAllAppointments().size() > 1) {
+                System.out.println("Appointment Success!");
             }
 
             customertableview.setItems(Inventory.getAllCustomers());
@@ -99,6 +103,18 @@ public class DashboardController implements Initializable {
             postalcodecol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
             phonecol.setCellValueFactory(new PropertyValueFactory<>("phone"));
             dividcol.setCellValueFactory(new PropertyValueFactory<>("divId"));
+
+            appointmentstableview.setItems(Customer.getAllAppointments());
+            appointmentidcol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+            titlecol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            descriptioncol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            locationcol.setCellValueFactory(new PropertyValueFactory<>("location"));
+            contactcol.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+            typecol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            startcol.setCellValueFactory(new PropertyValueFactory<>("start"));
+            endcol.setCellValueFactory(new PropertyValueFactory<>("end"));
+            customeridcol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            useridcol.setCellValueFactory(new PropertyValueFactory<>("userId"));
 
 
         } catch (SQLException throwables) {

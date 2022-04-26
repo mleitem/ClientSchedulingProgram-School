@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Appointment;
-import Model.Customer;
-import Model.CustomerQuery;
-import Model.Inventory;
+import Model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -87,7 +84,7 @@ public class DashboardController implements Initializable {
 
         try {
             CustomerQuery.allCustomers();
-            CustomerQuery.allAppointments();
+            AppointmentQuery.allAppointments();
 
             if (Inventory.getAllCustomers().size() > 1) {
                 System.out.println("Customer Success!");

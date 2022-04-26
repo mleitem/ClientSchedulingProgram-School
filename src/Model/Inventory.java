@@ -10,8 +10,13 @@ public class Inventory {
     public static void addCustomer(Customer newCustomer) {
         allCustomers.add(newCustomer);
     }
+
     public static ObservableList<Customer> getAllCustomers() {
         return allCustomers;
+    }
+
+    public static void deleteCustomer(String customer){
+        allCustomers.remove(customer);
     }
 
 

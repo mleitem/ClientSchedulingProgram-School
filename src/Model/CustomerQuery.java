@@ -12,7 +12,7 @@ import java.util.Date;
 
 public abstract class CustomerQuery {
 
-    public static int insert(String customerName, String customerAddress, String postalCode, String phone, int divId) throws SQLException {
+    public static int addCustomer(String customerName, String customerAddress, String postalCode, String phone, int divId) throws SQLException {
         String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES(?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, customerName);
@@ -38,7 +38,7 @@ public abstract class CustomerQuery {
 
     // Need update address, phone, etc.
 
-    public static int delete(int customerId) throws SQLException {
+    public static int deleteCustomer(int customerId) throws SQLException {
         String sql = "DELETE FROM customers WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, customerId);
@@ -66,32 +66,6 @@ public abstract class CustomerQuery {
             System.out.print(divId + "\n");*/
             Customer customer = new Customer(customerId, customerName, address, postalCode, phone, divId);
             Inventory.addCustomer(customer);
-        }
-    }
-
-    public static void allAppointments() throws SQLException {
-        String sql = "SELECT * FROM appointments";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery(sql);
-        while (rs.next()) {
-            int appointmentId = rs.getInt("Appointment_ID");
-            String title = rs.getString("Title");
-            String description = rs.getString("Description");
-            String location = rs.getString("Location");
-            String type = rs.getString("Type");
-            Date start = rs.getDate("Start");
-            Date end = rs.getDate("End");
-            int customerId1 = rs.getInt("Customer_ID");
-            int userId = rs.getInt("User_ID");
-            int contactId = rs.getInt("Contact_ID");
-            /*System.out.print(customerId + " | ");
-            System.out.print(customerName + " | ");
-            System.out.print(address + " | ");
-            System.out.print(postalCode + " | ");
-            System.out.print(phone + " | ");
-            System.out.print(divId + "\n");*/
-            Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId1,userId, contactId);
-            Customer.addAppointment(appointment);
         }
     }
 

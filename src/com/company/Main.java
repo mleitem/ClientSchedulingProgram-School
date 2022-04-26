@@ -35,8 +35,9 @@ public class Main extends Application {
         LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
         java.sql.Date sqlDateEnd = java.sql.Date.valueOf(endDateTime.toLocalDate());
 
-        AppointmentQuery.addAppointment("checkup", "normal checkup", "primary office", "checkup", sqlDateStart, sqlDateEnd, 3, 1, 1);
+        //AppointmentQuery.addAppointment("checkup", "normal checkup", "primary office", "checkup", sqlDateStart, sqlDateEnd, 3, 1, 1);
 
+        //AppointmentQuery.deleteAppointment(3);
 
         JDBC.closeConnection();
     }

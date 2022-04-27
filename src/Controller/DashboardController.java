@@ -91,7 +91,12 @@ public class DashboardController implements Initializable {
     /** This is the listener for the radio buttons **/
     public void radioSelect(ActionEvent event) throws SQLException {
         if(monthbuttonid.isSelected()){
+            Customer.clearFilteredAppointments();
             AppointmentQuery.viewThisMonthAppointments();
+            appointmentstableview.setItems(filteredAppointments);
+        }
+        if(weekbuttonid.isSelected()){
+            AppointmentQuery.viewThisWeekAppointments();
             appointmentstableview.setItems(filteredAppointments);
         }
     }

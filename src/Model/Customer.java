@@ -83,10 +83,11 @@ public class Customer {
 
     public static void addToFilteredAppointments(Appointment filteredAppointment) {filteredAppointments.add(filteredAppointment);}
 
-    public static void clearFilteredAppointments(){
-        if(!filteredAppointments.isEmpty())
-        for(int i = 0; i <= filteredAppointments.size(); ++i) {
-            filteredAppointments.remove(i);
+    public static void clearFilteredAppointments() {
+        if (filteredAppointments.size() > 0) {
+            for (int i = 0; i <= filteredAppointments.size(); ++i) {
+                filteredAppointments.remove(i);
+            }
         }
     }
 

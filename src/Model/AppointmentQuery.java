@@ -82,19 +82,13 @@ public abstract class AppointmentQuery {
             int customerId1 = rs.getInt("Customer_ID");
             int userId = rs.getInt("User_ID");
             int contactId = rs.getInt("Contact_ID");
-            /*System.out.print(customerId + " | ");
-            System.out.print(customerName + " | ");
-            System.out.print(address + " | ");
-            System.out.print(postalCode + " | ");
-            System.out.print(phone + " | ");
-            System.out.print(divId + "\n");*/
+
             for(int i = 0; i < Customer.associatedAppointments.size(); ++i){
                 appointment = Customer.associatedAppointments.get(i);
                 if (appointment.getAppointmentId() == appointmentId) {
                     Customer.addToFilteredAppointments(appointment);
                 }
             }
-
         }
     }
 
@@ -128,6 +122,7 @@ public abstract class AppointmentQuery {
         while (rs.next()) {
             String title = rs.getString("Title");
             System.out.println(title);
+
         }
     }
 
@@ -144,12 +139,19 @@ public abstract class AppointmentQuery {
 
     public static void viewThisWeekAppointments() throws SQLException {
 
+        Customer.clearFilteredAppointments();
+        Appointment appointment = null;
         String sql = "SELECT * FROM appointments WHERE YEARWEEK(Start) = YEARWeek(now())";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            String title = rs.getString("Title");
-            System.out.println(title);
+            int appointmentId = rs.getInt("Appointment_ID");
+            for(int i = 0; i < Customer.associatedAppointments.size(); ++i){
+                appointment = Customer.associatedAppointments.get(i);
+                if (appointment.getAppointmentId() == appointmentId) {
+                    Customer.addToFilteredAppointments(appointment);
+                }
+            }
         }
     }
 

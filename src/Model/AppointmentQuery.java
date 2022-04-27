@@ -32,7 +32,7 @@ public abstract class AppointmentQuery {
             System.out.print(postalCode + " | ");
             System.out.print(phone + " | ");
             System.out.print(divId + "\n");*/
-            Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId1,userId, contactId);
+            Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId1, userId, contactId);
             Customer.addAppointment(appointment);
         }
     }
@@ -64,22 +64,45 @@ public abstract class AppointmentQuery {
     }
 
     public static void viewAppointmentByMonth(int month) throws SQLException {
-        /*Date date = new Date();
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        int newMonth = localDate.getMonthValue();*/
 
-        String sql = "SELECT * FROM appointments WHERE MONTH(start) = ?";
+        String sql = "SELECT * FROM appointments WHERE MONTH(Start) = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, month);
-        ResultSet rs = ps.executeQuery(sql);
-        while(rs.next()){
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
             String title = rs.getString("Title");
             System.out.println(title);
         }
+    }
 
+    public static void viewNextWeekAppointment() throws SQLException {
 
+        String sql = "SELECT * FROM appointments WHERE WEEK(Start) = Week(now() + INTERVAL 1 WEEK)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            String title = rs.getString("Title");
+            System.out.println(title);
+        }
+    }
 
+    public static void viewThisWeekAppointment() throws SQLException {
+
+        String sql = "SELECT * FROM appointments WHERE WEEK(Start) = Week(now())";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            String title = rs.getString("Title");
+            System.out.println(title);
+        }
     }
 
 
+
 }
+
+
+
+
+
+

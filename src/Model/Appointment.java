@@ -28,6 +28,7 @@ public class Appointment {
         this.contactId = contactId;
     }
 
+
     public int getAppointmentId() {
         return appointmentId;
     }

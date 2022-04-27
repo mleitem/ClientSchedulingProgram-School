@@ -18,30 +18,30 @@ import java.util.Date;
 
 public class Main extends Application {
 
-    //public static void main(String[] args) { launch(args); }
+    public static void main(String[] args) { launch(args); }
 
-    public static void main(String[] args) throws SQLException, ParseException {
+    /*public static void main(String[] args) throws SQLException, ParseException {
         JDBC.openConnection();
 
-        /*LocalDate startDate = LocalDate.of(2022, 05, 4);
+        /*LocalDate startDate = LocalDate.of(2022, 04, 20);
         LocalTime startTime = LocalTime.of(10, 00);
         LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
         java.sql.Date sqlDateStart = java.sql.Date.valueOf(startDateTime.toLocalDate());
 
-        LocalDate endDate = LocalDate.of(2022, 05, 4);
+        LocalDate endDate = LocalDate.of(2022, 04, 20);
         LocalTime endTime = LocalTime.of(11, 00);
         LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
-        java.sql.Date sqlDateEnd = java.sql.Date.valueOf(endDateTime.toLocalDate());*/
+        java.sql.Date sqlDateEnd = java.sql.Date.valueOf(endDateTime.toLocalDate());
 
-        //AppointmentQuery.addAppointment("checkup", "normal checkup", "primary office", "checkup", sqlDateStart, sqlDateEnd, 3, 1, 1);
+        //AppointmentQuery.addAppointment("last week", "normal checkup", "primary office", "checkup", sqlDateStart, sqlDateEnd, 3, 1, 1);
 
         //AppointmentQuery.deleteAppointment(3);
 
-        AppointmentQuery.viewThisWeekAppointment();
+        //AppointmentQuery.viewLastWeekAppointments();
 
 
         JDBC.closeConnection();
-    }
+    }*/
 
     @Override
     public void start(Stage stage) throws Exception {

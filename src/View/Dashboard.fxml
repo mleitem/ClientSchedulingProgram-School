@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="737.0" prefWidth="969.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.DashboardController">
+<AnchorPane prefHeight="737.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DashboardController">
    <children>
       <TableView fx:id="appointmentstableview" layoutX="40.0" layoutY="71.0" prefHeight="218.0" prefWidth="890.0">
         <columns>
@@ -48,12 +48,12 @@
       </Label>
       <HBox alignment="CENTER" layoutX="730.0" layoutY="34.0" prefHeight="0.0" prefWidth="200.0" spacing="20.0">
          <children>
-            <RadioButton mnemonicParsing="false" text="Week">
+            <RadioButton fx:id="weekbuttonid" mnemonicParsing="false" onAction="#radioSelect" text="Week">
                <toggleGroup>
                   <ToggleGroup fx:id="appointmentgroup" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton mnemonicParsing="false" text="Month" toggleGroup="$appointmentgroup" />
+            <RadioButton fx:id="monthbuttonid" mnemonicParsing="false" onAction="#radioSelect" text="Month" toggleGroup="$appointmentgroup" />
          </children>
       </HBox>
       <HBox alignment="CENTER" layoutX="273.0" layoutY="304.0" prefHeight="25.0" prefWidth="425.0" spacing="65.0">

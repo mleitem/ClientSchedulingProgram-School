@@ -79,6 +79,17 @@ public class Customer {
         return associatedAppointments;
     }
 
+    public static ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
+
+    public static void addToFilteredAppointments(Appointment filteredAppointment) {filteredAppointments.add(filteredAppointment);}
+
+    public static void clearFilteredAppointments(){
+        if(!filteredAppointments.isEmpty())
+        for(int i = 0; i <= filteredAppointments.size(); ++i) {
+            filteredAppointments.remove(i);
+        }
+    }
+
     public static void deleteAppointment(Appointment deleteAppointment) {
         associatedAppointments.remove(deleteAppointment);
     }

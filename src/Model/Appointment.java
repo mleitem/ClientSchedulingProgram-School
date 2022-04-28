@@ -28,6 +28,9 @@ public class Appointment {
         this.contactId = contactId;
     }
 
+    public Appointment(String title, String description, String location, String type, Date start, Date end, int customerId, int userId, int contactId) {
+    }
+
 
     public int getAppointmentId() {
         return appointmentId;

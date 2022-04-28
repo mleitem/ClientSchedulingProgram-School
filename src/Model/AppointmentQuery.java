@@ -48,7 +48,7 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
-    public static int addAppointment(String title, String description, String location, String type, Date start, Date end, int customerId, int userId, int contactId) throws SQLException {
+    public static void addAppointment(String title, String description, String location, String type, Date start, Date end, int customerId, int userId, int contactId) throws SQLException {
         String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, title);
@@ -60,9 +60,9 @@ public abstract class AppointmentQuery {
         ps.setInt(7, customerId);
         ps.setInt(8, userId);
         ps.setInt(9, contactId);
-        int rowsAffected = ps.executeUpdate();
+        Appointment appointment = new Appointment(title, description, location, type, start, end, customerId, userId, contactId);
+        Customer.addAppointment(appointment);
 
-        return rowsAffected;
     }
 
     public static ObservableList<Appointment> viewThisMonthAppointments() throws SQLException {
@@ -86,20 +86,30 @@ public abstract class AppointmentQuery {
         return filteredAppointments;
     }
 
-    public static void viewNextMonthAppointments() throws SQLException {
+    /*public static ObservableList<Appointment> viewNextMonthAppointments() throws SQLException {
 
-        String sql = "SELECT * FROM appointments WHERE YEAR(Start) = YEAR(now()) AND MONTH(Start) = MONTH(now() + INTERVAL 1 MONTH)";
+        ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
+
+        Appointment appointment = null;
+        String sql = "SELECT * FROM appointments WHERE YEAR(Start) = YEAR(now()) AND MONTH(Start) + INTERVAL 1 MONTH  = MONTH(now() + INTERVAL 1 MONTH)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            String title = rs.getString("Title");
-            System.out.println(title);
+        while(rs.next()) {
+            int appointmentId = rs.getInt("Appointment_ID");
+
+            for(int i = 0; i < Customer.associatedAppointments.size(); ++i){
+                appointment = Customer.associatedAppointments.get(i);
+                if (appointment.getAppointmentId() == appointmentId) {
+                    filteredAppointments.add(appointment);
+                }
+            }
         }
+        return filteredAppointments;
     }
 
     public static void viewLastMonthAppointments() throws SQLException {
 
-        String sql = "SELECT * FROM appointments WHERE YEAR(Start) = YEAR(now()) AND MONTH(Start) = MONTH(now() - INTERVAL 1 MONTH)";
+        String sql = "SELECT * FROM appointments WHERE YEAR(Start) = YEAR(now()) AND MONTH(Start) - INTERVAL 1 MONTH = MONTH(now() - INTERVAL 1 MONTH)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -129,7 +139,7 @@ public abstract class AppointmentQuery {
             String title = rs.getString("Title");
             System.out.println(title);
         }
-    }
+    }*/
 
     public static ObservableList<Appointment> viewThisWeekAppointments() throws SQLException {
 

@@ -4,15 +4,16 @@ import Model.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Date;
@@ -105,6 +106,16 @@ public class DashboardController implements Initializable {
         if(allbuttonid.isSelected()){
             appointmentstableview.setItems(Customer.getAllAppointments());
         }
+    }
+
+    @FXML
+    public void addAppointment(ActionEvent event) throws IOException {
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/add_appointment.fxml"));
+        scene = loader.load();
+        Scene root = new Scene(scene);
+        stage.setScene(root);
+        stage.show();
     }
 
     @Override

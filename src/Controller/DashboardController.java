@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -91,13 +92,14 @@ public class DashboardController implements Initializable {
     /** This is the listener for the radio buttons **/
     public void radioSelect(ActionEvent event) throws SQLException {
         if(monthbuttonid.isSelected()){
-            Customer.clearFilteredAppointments();
             AppointmentQuery.viewThisMonthAppointments();
-            appointmentstableview.setItems(filteredAppointments);
+            ObservableList<Appointment> monthAppointments = AppointmentQuery.viewThisMonthAppointments();
+            appointmentstableview.setItems(monthAppointments);
         }
         if(weekbuttonid.isSelected()){
             AppointmentQuery.viewThisWeekAppointments();
-            appointmentstableview.setItems(filteredAppointments);
+            ObservableList<Appointment> weekAppointments = AppointmentQuery.viewThisWeekAppointments();
+            appointmentstableview.setItems(weekAppointments);
         }
     }
 

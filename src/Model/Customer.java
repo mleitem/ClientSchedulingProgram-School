@@ -85,7 +85,7 @@ public class Customer {
 
     public static void clearFilteredAppointments() {
         if (filteredAppointments.size() > 0) {
-            for (int i = 0; i <= filteredAppointments.size(); ++i) {
+            for (int i = 0; i < filteredAppointments.size(); ++i) {
                 filteredAppointments.remove(i);
             }
         }

@@ -65,15 +65,17 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
-    public static void viewThisMonthAppointments() throws SQLException {
-        Customer.clearFilteredAppointments();
+    public static ObservableList<Appointment> viewThisMonthAppointments() throws SQLException {
+
+        ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
+
         Appointment appointment = null;
         String sql = "SELECT * FROM appointments WHERE YEAR(Start) = YEAR(now()) AND MONTH(Start) = MONTH(now())";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while(rs.next()) {
             int appointmentId = rs.getInt("Appointment_ID");
-            String title = rs.getString("Title");
+            /*String title = rs.getString("Title");
             String description = rs.getString("Description");
             String location = rs.getString("Location");
             String type = rs.getString("Type");
@@ -81,15 +83,16 @@ public abstract class AppointmentQuery {
             Date end = rs.getDate("End");
             int customerId1 = rs.getInt("Customer_ID");
             int userId = rs.getInt("User_ID");
-            int contactId = rs.getInt("Contact_ID");
+            int contactId = rs.getInt("Contact_ID");*/
 
             for(int i = 0; i < Customer.associatedAppointments.size(); ++i){
                 appointment = Customer.associatedAppointments.get(i);
                 if (appointment.getAppointmentId() == appointmentId) {
-                    Customer.addToFilteredAppointments(appointment);
+                    filteredAppointments.add(appointment);
                 }
             }
         }
+        return filteredAppointments;
     }
 
     public static void viewNextMonthAppointments() throws SQLException {
@@ -137,11 +140,12 @@ public abstract class AppointmentQuery {
         }
     }
 
-    public static void viewThisWeekAppointments() throws SQLException {
+    public static ObservableList<Appointment> viewThisWeekAppointments() throws SQLException {
 
-        Customer.clearFilteredAppointments();
+        ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
+
         Appointment appointment = null;
-        String sql = "SELECT * FROM appointments WHERE YEARWEEK(Start) = YEARWeek(now())";
+        String sql = "SELECT * FROM appointments WHERE YEARWEEK(Start, 0) = YEARWeek(now(), 0)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -149,10 +153,11 @@ public abstract class AppointmentQuery {
             for(int i = 0; i < Customer.associatedAppointments.size(); ++i){
                 appointment = Customer.associatedAppointments.get(i);
                 if (appointment.getAppointmentId() == appointmentId) {
-                    Customer.addToFilteredAppointments(appointment);
+                    filteredAppointments.add(appointment);
                 }
             }
         }
+        return filteredAppointments;
     }
 
 

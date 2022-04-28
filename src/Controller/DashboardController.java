@@ -18,8 +18,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-import static Model.Customer.filteredAppointments;
-
 public class DashboardController implements Initializable {
 
     Stage stage;
@@ -115,13 +113,6 @@ public class DashboardController implements Initializable {
             AppointmentQuery.allAppointments();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-
-        if (Inventory.getAllCustomers().size() > 1) {
-            System.out.println("Customer Success!");
-        }
-        if (Customer.getAllAppointments().size() > 1) {
-            System.out.println("Appointment Success!");
         }
 
         customertableview.setItems(Inventory.getAllCustomers());

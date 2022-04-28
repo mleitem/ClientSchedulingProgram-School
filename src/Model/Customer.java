@@ -79,7 +79,7 @@ public class Customer {
         return associatedAppointments;
     }
 
-    public static ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
+    /*public static ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
 
     public static void addToFilteredAppointments(Appointment filteredAppointment) {filteredAppointments.add(filteredAppointment);}
 
@@ -89,7 +89,7 @@ public class Customer {
                 filteredAppointments.remove(i);
             }
         }
-    }
+    }*/
 
     public static void deleteAppointment(Appointment deleteAppointment) {
         associatedAppointments.remove(deleteAppointment);

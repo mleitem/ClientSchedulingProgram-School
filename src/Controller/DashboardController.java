@@ -36,6 +36,9 @@ public class DashboardController implements Initializable {
     private RadioButton weekbuttonid;
 
     @FXML
+    private RadioButton allbuttonid;
+
+    @FXML
     private TableColumn<Appointment, Integer> appointmentidcol;
 
     @FXML
@@ -98,6 +101,9 @@ public class DashboardController implements Initializable {
             AppointmentQuery.viewThisWeekAppointments();
             ObservableList<Appointment> weekAppointments = AppointmentQuery.viewThisWeekAppointments();
             appointmentstableview.setItems(weekAppointments);
+        }
+        if(allbuttonid.isSelected()){
+            appointmentstableview.setItems(Customer.getAllAppointments());
         }
     }
 

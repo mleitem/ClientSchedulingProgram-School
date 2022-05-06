@@ -1,13 +1,16 @@
 package Model;
 
 import Helper.JDBC;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -84,6 +87,80 @@ public abstract class AppointmentQuery {
             }
         }
         return filteredAppointments;
+    }
+
+    public static ObservableList<Integer> viewAllContacts() throws SQLException {
+
+        ObservableList<Integer> allContacts = FXCollections.observableArrayList();
+
+        String sql = "SELECT Contact_ID FROM contacts";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+
+            int contactId = rs.getInt("Contact_ID");
+            allContacts.add(contactId);
+            System.out.println(contactId);
+        }
+        return allContacts;
+    }
+
+    public static ObservableList<Integer> viewAllCustomers() throws SQLException {
+
+        ObservableList<Integer> allCustomers = FXCollections.observableArrayList();
+
+        String sql = "SELECT Customer_ID FROM customers";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+
+            int customerId = rs.getInt("Customer_ID");
+            allCustomers.add(customerId);
+            System.out.println(customerId);
+        }
+        return allCustomers;
+    }
+
+    public static ObservableList<LocalTime> viewStartTimes() {
+
+        ObservableList<LocalTime> startTimes = FXCollections.observableArrayList();
+        LocalTime start = LocalTime.of(8,0);
+        LocalTime end = LocalTime.of(16, 30);
+        while(start.isBefore(end.plusSeconds(1))) {
+            startTimes.add(start);
+            start = start.plusMinutes(30);
+        }
+        return startTimes;
+    }
+
+    public static ObservableList<LocalTime> viewEndTimes() {
+
+        ObservableList<LocalTime> endTimes = FXCollections.observableArrayList();
+        LocalTime start = LocalTime.of(9,0);
+        LocalTime end = LocalTime.of(17, 30);
+        while(start.isBefore(end.plusSeconds(1))) {
+            endTimes.add(start);
+            start = start.plusMinutes(30);
+        }
+        return endTimes;
+    }
+
+
+
+    public static ObservableList<Integer> viewAllUsers() throws SQLException {
+
+        ObservableList<Integer> allUsers = FXCollections.observableArrayList();
+
+        String sql = "SELECT User_ID FROM users";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+
+            int userId = rs.getInt("User_ID");
+            allUsers.add(userId);
+            System.out.println(userId);
+        }
+        return allUsers;
     }
 
     /*public static ObservableList<Appointment> viewNextMonthAppointments() throws SQLException {

@@ -6,21 +6,27 @@ import Model.Customer;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
+
+    Stage stage;
+    Parent scene;
 
     @FXML
     private TextField appointmentid;
@@ -95,6 +101,59 @@ public class AddAppointmentController implements Initializable {
             LocalDate start = end;
             startdateid.setValue(start);
         }
+    }
+
+    public void submitAppointment(ActionEvent event) throws SQLException, IOException {
+
+        int size = Customer.getAllAppointments().size();
+
+        /*String title = titleid.getText();
+        String description = descriptionid.getText();
+        String location = locationid.getText();
+        String type = typeid.getText();
+        LocalDate startDate = startdateid.getValue();
+        LocalDate endDate = enddateid.getValue();
+        LocalTime startTime = starttimeid.getValue();
+        LocalTime endTime = endtimeid.getValue();
+        int customerId = customerid.getValue();
+        int userId = userid.getValue();
+        int contactId = contactid.getValue();*/
+
+        String title = "test";
+        String description = "test";
+        String location = "test";
+        String type = "test";
+        int customerId = 1;
+        int userId = 1;
+        int contactId = 1;
+
+        LocalDate endDate = LocalDate.of(2022, 12, 20);
+        LocalTime endTime = LocalTime.of(11, 00);
+        LocalDate startDate = LocalDate.of(2022, 12, 20);
+        LocalTime startTime = LocalTime.of(10, 00);
+
+        //Combine date/time entries to get one entry for the constuctor
+        //LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
+        //LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
+
+        //Date startDate1 = Date.valueOf(startDate);
+        LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
+        java.sql.Date sqlDateEnd = java.sql.Date.valueOf(endDateTime.toLocalDate());
+        LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
+        java.sql.Date sqlDateStart = java.sql.Date.valueOf(startDateTime.toLocalDate());
+        //Date endDate1 = Date.valueOf(endDate);
+
+
+        AppointmentQuery.addAppointment(title, description, location, type, sqlDateStart, sqlDateEnd, customerId, userId, contactId);
+
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
+        scene = loader.load();
+        Scene root = new Scene(scene);
+        stage.setScene(root);
+        stage.show();
+
+
     }
 
     @Override

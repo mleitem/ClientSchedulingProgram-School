@@ -17,6 +17,7 @@ import java.util.Date;
 public abstract class AppointmentQuery {
 
     public static void allAppointments() throws SQLException {
+        Inventory.allAppointments.clear();
         String sql = "SELECT * FROM appointments";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery(sql);
@@ -38,7 +39,7 @@ public abstract class AppointmentQuery {
             System.out.print(phone + " | ");
             System.out.print(divId + "\n");*/
             Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId1, userId, contactId);
-            Customer.addAppointment(appointment);
+            Inventory.addAppointment(appointment);
         }
     }
 
@@ -83,7 +84,7 @@ public abstract class AppointmentQuery {
         int rowsAffected = ps.executeUpdate();
 
         Appointment appointment = new Appointment(title, description, location, type, start, end, customerId, userId, contactId);
-        Customer.addAppointment(appointment);
+        Inventory.addAppointment(appointment);
 
         return rowsAffected;
     }

@@ -107,7 +107,7 @@ public class AddAppointmentController implements Initializable {
 
         int size = Customer.getAllAppointments().size();
 
-        /*String title = titleid.getText();
+        String title = titleid.getText();
         String description = descriptionid.getText();
         String location = locationid.getText();
         String type = typeid.getText();
@@ -117,32 +117,13 @@ public class AddAppointmentController implements Initializable {
         LocalTime endTime = endtimeid.getValue();
         int customerId = customerid.getValue();
         int userId = userid.getValue();
-        int contactId = contactid.getValue();*/
-
-        String title = "test";
-        String description = "test";
-        String location = "test";
-        String type = "test";
-        int customerId = 1;
-        int userId = 1;
-        int contactId = 1;
-
-        LocalDate endDate = LocalDate.of(2022, 12, 20);
-        LocalTime endTime = LocalTime.of(11, 00);
-        LocalDate startDate = LocalDate.of(2022, 12, 20);
-        LocalTime startTime = LocalTime.of(10, 00);
+        int contactId = contactid.getValue();
 
         //Combine date/time entries to get one entry for the constuctor
-        //LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
-        //LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
-
-        //Date startDate1 = Date.valueOf(startDate);
         LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
         java.sql.Date sqlDateEnd = java.sql.Date.valueOf(endDateTime.toLocalDate());
         LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
         java.sql.Date sqlDateStart = java.sql.Date.valueOf(startDateTime.toLocalDate());
-        //Date endDate1 = Date.valueOf(endDate);
-
 
         AppointmentQuery.addAppointment(title, description, location, type, sqlDateStart, sqlDateEnd, customerId, userId, contactId);
 

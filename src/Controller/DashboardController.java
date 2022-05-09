@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +24,8 @@ public class DashboardController implements Initializable {
 
     Stage stage;
     Parent scene;
+    private ObservableList<Appointment> appointmentInventory = FXCollections.observableArrayList();
+    private ObservableList<Customer> customerInventory = FXCollections.observableArrayList();
 
     @FXML
     private TableColumn<Customer, String> addresscol;
@@ -118,6 +121,25 @@ public class DashboardController implements Initializable {
         stage.show();
     }
 
+    /** This method generates parts table. */
+    private void generateAppointmentsTable() {
+        appointmentstableview.refresh();
+
+        appointmentInventory.setAll(Inventory.getAllAppointments());
+
+        appointmentstableview.setItems(appointmentInventory);
+
+    }
+
+    /** This method generates products table. */
+    /*private void generateCustomersTable() {
+        productInventory.setAll(inv.getAllProducts());
+
+        productsTable.setItems(productInventory);
+        productsTable.refresh();
+
+    }*/
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -132,6 +154,9 @@ public class DashboardController implements Initializable {
             throwables.printStackTrace();
         }
 
+
+        //generateAppointmentsTable();
+
         customertableview.setItems(Inventory.getAllCustomers());
         customeridcol1.setCellValueFactory(new PropertyValueFactory<>("id"));
         namecol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -140,7 +165,7 @@ public class DashboardController implements Initializable {
         phonecol.setCellValueFactory(new PropertyValueFactory<>("phone"));
         dividcol.setCellValueFactory(new PropertyValueFactory<>("divId"));
 
-        appointmentstableview.setItems(Customer.getAllAppointments());
+        appointmentstableview.setItems(Inventory.getAllAppointments());
         appointmentidcol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         titlecol.setCellValueFactory(new PropertyValueFactory<>("title"));
         descriptioncol.setCellValueFactory(new PropertyValueFactory<>("description"));

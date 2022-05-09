@@ -48,6 +48,7 @@ public abstract class CustomerQuery {
     }
 
     public static void allCustomers() throws SQLException {
+        Inventory.allCustomers.clear();
         String sql = "SELECT * FROM customers";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery(sql);
@@ -59,6 +60,7 @@ public abstract class CustomerQuery {
             String phone = rs.getString("Phone");
             int divId = rs.getInt("Division_ID");
             /*System.out.print(customerId + " | ");
+
             System.out.print(customerName + " | ");
             System.out.print(address + " | ");
             System.out.print(postalCode + " | ");

@@ -1,6 +1,8 @@
 package Controller;
 
 import Helper.JDBC;
+import Model.AppointmentQuery;
+import Model.CustomerQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,6 +53,7 @@ public class LoginController implements Initializable {
         String password = passwordid.getText();
 
         if (login(username, password) == true) {
+            //AppointmentQuery.allAppointments();
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
             scene = loader.load();

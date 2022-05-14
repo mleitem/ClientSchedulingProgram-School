@@ -100,8 +100,8 @@ public abstract class AppointmentQuery {
         while(rs.next()) {
             int appointmentId = rs.getInt("Appointment_ID");
 
-            for(int i = 0; i < Customer.associatedAppointments.size(); ++i){
-                appointment = Customer.associatedAppointments.get(i);
+            for(int i = 0; i < Inventory.allAppointments.size(); ++i){
+                appointment = Inventory.allAppointments.get(i);
                 if (appointment.getAppointmentId() == appointmentId) {
                     filteredAppointments.add(appointment);
                 }
@@ -249,8 +249,8 @@ public abstract class AppointmentQuery {
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int appointmentId = rs.getInt("Appointment_ID");
-            for(int i = 0; i < Customer.associatedAppointments.size(); ++i){
-                appointment = Customer.associatedAppointments.get(i);
+            for(int i = 0; i < Inventory.allAppointments.size(); ++i){
+                appointment = Inventory.allAppointments.get(i);
                 if (appointment.getAppointmentId() == appointmentId) {
                     filteredAppointments.add(appointment);
                 }

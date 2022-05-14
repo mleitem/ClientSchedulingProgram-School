@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
@@ -97,17 +98,17 @@ public class DashboardController implements Initializable {
     /** This is the listener for the radio buttons **/
     public void radioSelect(ActionEvent event) throws SQLException {
         if(monthbuttonid.isSelected()){
-            AppointmentQuery.viewThisMonthAppointments();
+            //AppointmentQuery.viewThisMonthAppointments();
             ObservableList<Appointment> monthAppointments = AppointmentQuery.viewThisMonthAppointments();
             appointmentstableview.setItems(monthAppointments);
         }
         if(weekbuttonid.isSelected()){
-            AppointmentQuery.viewThisWeekAppointments();
+            //AppointmentQuery.viewThisWeekAppointments();
             ObservableList<Appointment> weekAppointments = AppointmentQuery.viewThisWeekAppointments();
             appointmentstableview.setItems(weekAppointments);
         }
         if(allbuttonid.isSelected()){
-            appointmentstableview.setItems(Customer.getAllAppointments());
+            appointmentstableview.setItems(Inventory.getAllAppointments());
         }
     }
 
@@ -121,7 +122,46 @@ public class DashboardController implements Initializable {
         stage.show();
     }
 
-    /** This method generates parts table. */
+    @FXML
+    public void deleteAppointment(ActionEvent event) throws SQLException {
+        if (appointmentstableview.getSelectionModel().isEmpty()) {
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
+            noSelectionAlert.setTitle("Error");
+            noSelectionAlert.setContentText("Please choose an appointment to delete.");
+            noSelectionAlert.showAndWait();
+        }
+        else {
+            Appointment appointment = appointmentstableview.getSelectionModel().getSelectedItem();
+            int id = appointment.getAppointmentId();
+            String type = appointment.getType();
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wand to delete Appointment ID: " + id + " - " + type);
+            confirmation.setTitle("Delete Confirmation");
+            Optional<ButtonType> result = confirmation.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                AppointmentQuery.deleteAppointment(id);
+                Inventory.deleteAppointment(appointment);
+
+                Alert deleteConfirmation = new Alert(Alert.AlertType.INFORMATION);
+                deleteConfirmation.setTitle("Confirmation");
+                deleteConfirmation.setContentText("Appointment ID: " + id + "   /   " + "Type: " + type + " deleted.");
+                deleteConfirmation.showAndWait();
+
+                if (allbuttonid.isSelected()) {
+                    appointmentstableview.setItems(Inventory.getAllAppointments());
+                }
+                if (monthbuttonid.isSelected()) {
+                    appointmentstableview.setItems(AppointmentQuery.viewThisMonthAppointments());
+                }
+                if (weekbuttonid.isSelected()) {
+                    appointmentstableview.setItems(AppointmentQuery.viewThisWeekAppointments());
+                }
+            }
+
+        }
+    }
+
+    /** This method generates appointments table.
     private void generateAppointmentsTable() {
         appointmentstableview.refresh();
 
@@ -131,7 +171,7 @@ public class DashboardController implements Initializable {
 
     }
 
-    /** This method generates products table. */
+    /** This method generates customer table. */
     /*private void generateCustomersTable() {
         productInventory.setAll(inv.getAllProducts());
 

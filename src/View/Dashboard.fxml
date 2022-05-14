@@ -60,7 +60,7 @@
       <HBox alignment="CENTER" layoutX="273.0" layoutY="304.0" prefHeight="25.0" prefWidth="425.0" spacing="65.0">
          <children>
             <Button mnemonicParsing="false" onAction="#addAppointment" prefWidth="55.0" text="New" />
-            <Button mnemonicParsing="false" text="Update" />
+            <Button mnemonicParsing="false" onAction="#updateAppointment" text="Update" />
             <Button mnemonicParsing="false" onAction="#deleteAppointment" prefWidth="55.0" text="Delete" />
          </children>
       </HBox>

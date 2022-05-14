@@ -89,6 +89,29 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
+    public static int updateAppointment(int id, String title, String description, String location, String type, Date start, Date end, int customerId, int userId, int contactId) throws SQLException {
+        String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, title);
+        ps.setString(2, description);
+        ps.setString(3, location);
+        ps.setString(4, type);
+        ps.setDate(5, (java.sql.Date) start);
+        ps.setDate(6, (java.sql.Date) end);
+        ps.setInt(7, customerId);
+        ps.setInt(8, userId);
+        ps.setInt(9, contactId);
+        ps.setInt(10, id);
+        int rowsAffected = ps.executeUpdate();
+
+        //Appointment appointment = new Appointment(title, description, location, type, start, end, customerId, userId, contactId);
+        //Inventory.addAppointment(appointment);
+
+        return rowsAffected;
+    }
+
+
+
     public static ObservableList<Appointment> viewThisMonthAppointments() throws SQLException {
 
         ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();

@@ -25,7 +25,7 @@ public abstract class CustomerQuery {
         return rowsAffected;
     }
 
-    public static int updateName(int customerId, String customerName) throws SQLException {
+    public static int updateCustomer(int customerId, String customerName) throws SQLException {
         String sql = "UPDATE customers SET Customer_Name = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, customerName);

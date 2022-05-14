@@ -123,6 +123,20 @@ public class DashboardController implements Initializable {
     }
 
     @FXML
+    public void updateAppointment(ActionEvent event) throws IOException {
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/update_appointment.fxml"));
+        scene = loader.load();
+        Scene root = new Scene(scene);
+        stage.setScene(root);
+        stage.show();
+
+        UpdateAppointmentController controller = loader.getController();
+        Appointment appointment = appointmentstableview.getSelectionModel().getSelectedItem();
+        controller.setAppointment(appointment);
+    }
+
+    @FXML
     public void deleteAppointment(ActionEvent event) throws SQLException {
         if (appointmentstableview.getSelectionModel().isEmpty()) {
             Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);

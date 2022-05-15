@@ -2,9 +2,11 @@ package Controller;
 
 import Model.Appointment;
 import Model.AppointmentQuery;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,13 +16,15 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.ResourceBundle;
 
-public class UpdateAppointmentController {
+public class UpdateAppointmentController implements Initializable {
 
     @FXML
     private TextField appointmentid;
@@ -98,7 +102,6 @@ public class UpdateAppointmentController {
 
     public void endDate(ActionEvent event) {
         if(startdateid.getValue() != null){
-            //Date start = startdateid.getValue();
             LocalDate start = startdateid.getValue();
             LocalDate end = start;
             System.out.println("Start date: " + start + " - " + "End date: " + end);
@@ -122,19 +125,31 @@ public class UpdateAppointmentController {
         String description = descriptionid.getText();
         String location  = locationid.getText();
         String type = typeid.getText();
-        LocalDate startDate = startdateid.getValue();
-        LocalDate endDate = enddateid.getValue();
-        LocalTime startTime = starttimeid.getValue();
-        LocalTime endTime = endtimeid.getValue();
+        //LocalDate startDate = startdateid.getValue();
+        //LocalDate endDate = enddateid.getValue();
+        //LocalTime startTime = starttimeid.getValue();
+        //LocalTime endTime = endtimeid.getValue();
         int customerId = customerid.getValue();
         int userId = userid.getValue();
         int contactId = contactid.getValue();
 
         //Combine date/time entries to get one entry for the constuctor
-        LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
+        /*LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
         Date sqlDateEnd = java.sql.Date.valueOf(endDateTime.toLocalDate());
         LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
-        Date sqlDateStart = java.sql.Date.valueOf(startDateTime.toLocalDate());
+        Date sqlDateStart = java.sql.Date.valueOf(startDateTime.toLocalDate());*/
+
+        LocalDate startDate = LocalDate.of(2022, 12, 20);
+        LocalTime startTime = LocalTime.of(10, 00);
+        LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
+        java.sql.Date sqlDateStart = java.sql.Date.valueOf(startDateTime.toLocalDate());
+        ///Date start = Date.valueOf()
+
+        LocalDate endDate = LocalDate.of(2022, 12, 20);
+        LocalTime endTime = LocalTime.of(11, 00);
+        LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
+        java.sql.Date sqlDateEnd = java.sql.Date.valueOf(endDateTime.toLocalDate());
+
 
         AppointmentQuery.updateAppointment(id, title, description, location, type, sqlDateStart, sqlDateEnd, customerId, userId, contactId);
 
@@ -144,6 +159,28 @@ public class UpdateAppointmentController {
         Scene root = new Scene(scene);
         stage.setScene(root);
         stage.show();
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        try {
+            ObservableList<Integer> allContacts = AppointmentQuery.viewAllContacts();
+            ObservableList<Integer> allCustomers = AppointmentQuery.viewAllCustomers();
+            ObservableList<Integer> allUsers = AppointmentQuery.viewAllUsers();
+            ObservableList<LocalTime> startTimes = AppointmentQuery.viewStartTimes();
+            ObservableList<LocalTime> endTimes = AppointmentQuery.viewEndTimes();
+            contactid.setItems(allContacts);
+            customerid.setItems(allCustomers);
+            userid.setItems(allUsers);
+            starttimeid.setItems(startTimes);
+            endtimeid.setItems(endTimes);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+
     }
 
 }

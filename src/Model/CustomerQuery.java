@@ -92,4 +92,41 @@ public abstract class CustomerQuery {
         }
     }*/
 
+    public static ObservableList<String> viewAllCountries() throws SQLException {
+
+        ObservableList<String> allCountries = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM countries";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+
+            int countryID = rs.getInt("Country_ID");
+            String countryName = rs.getString("Country");
+
+            String completeCountry = countryID + ": " + countryName;
+            allCountries.add(completeCountry);
+
+        }
+        return allCountries;
+    }
+
+    public static ObservableList<String> viewUSRegions() throws SQLException {
+
+        ObservableList<String> usRegions = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = 1";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+
+            int divisionID = rs.getInt("Division_ID");
+            String divisionName = rs.getString("Division");
+
+            String completeCountry = divisionID + ": " + divisionName;
+            usRegions.add(completeCountry);
+
+        }
+        return usRegions;
+    }
 }

@@ -67,7 +67,7 @@
       <HBox layoutX="299.0" layoutY="585.0" prefHeight="100.0" prefWidth="200.0" />
       <HBox alignment="CENTER" layoutX="272.0" layoutY="673.0" prefHeight="25.0" prefWidth="425.0" spacing="65.0">
          <children>
-            <Button mnemonicParsing="false" prefWidth="55.0" text="New" />
+            <Button mnemonicParsing="false" onAction="#addCustomer" prefWidth="55.0" text="New" />
             <Button mnemonicParsing="false" text="Update" />
             <Button mnemonicParsing="false" prefWidth="55.0" text="Delete" />
          </children>

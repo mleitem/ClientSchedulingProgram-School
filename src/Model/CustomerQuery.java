@@ -129,4 +129,41 @@ public abstract class CustomerQuery {
         }
         return usRegions;
     }
+
+    public static ObservableList<String> viewUKRegions() throws SQLException {
+
+        ObservableList<String> ukRegions = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = 2";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+
+            int divisionID = rs.getInt("Division_ID");
+            String divisionName = rs.getString("Division");
+
+            String completeCountry = divisionID + ": " + divisionName;
+            ukRegions.add(completeCountry);
+
+        }
+        return ukRegions;
+    }
+    public static ObservableList<String> viewCanadaRegions() throws SQLException {
+
+        ObservableList<String> canadaRegions = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = 3";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+
+            int divisionID = rs.getInt("Division_ID");
+            String divisionName = rs.getString("Division");
+
+            String completeCountry = divisionID + ": " + divisionName;
+            canadaRegions.add(completeCountry);
+
+        }
+        return canadaRegions;
+    }
 }

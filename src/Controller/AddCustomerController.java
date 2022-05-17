@@ -50,7 +50,16 @@ public class AddCustomerController implements Initializable{
                 ObservableList<String> usRegions = CustomerQuery.viewUSRegions();
                 stateid.setItems(usRegions);
                 stateid.setValue("1: Alabama");
-
+            }
+            if(id.contains("2")){
+                ObservableList<String> ukRegions = CustomerQuery.viewUKRegions();
+                stateid.setItems(ukRegions);
+                stateid.setValue("101: England");
+            }
+            if(id.contains("3")){
+                ObservableList<String> canadaRegions = CustomerQuery.viewCanadaRegions();
+                stateid.setItems(canadaRegions);
+                stateid.setValue("60: Northwest Territories");
             }
 
         }

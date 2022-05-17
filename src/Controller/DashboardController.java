@@ -204,6 +204,20 @@ public class DashboardController implements Initializable {
         stage.show();
     }
 
+    @FXML
+    public void updateCustomer(ActionEvent event) throws IOException, SQLException {
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/update_customer.fxml"));
+        scene = loader.load();
+        Scene root = new Scene(scene);
+        stage.setScene(root);
+        stage.show();
+
+        UpdateCustomerController controller = loader.getController();
+        Customer customer = customertableview.getSelectionModel().getSelectedItem();
+        controller.setCustomer(customer);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

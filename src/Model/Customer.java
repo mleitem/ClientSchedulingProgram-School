@@ -21,6 +21,14 @@ public class Customer {
         this.divId = divId;
     }
 
+    public Customer(String name, String address, String postalCode, String phone, int divId){
+        this.name = name;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.phone = phone;
+        this.divId = divId;
+    }
+
     public int getId() {
         return id;
     }

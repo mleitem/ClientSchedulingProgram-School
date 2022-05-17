@@ -22,6 +22,9 @@ public abstract class CustomerQuery {
         ps.setInt(5, divId);
         int rowsAffected = ps.executeUpdate();
 
+        Customer customer = new Customer(customerName, customerAddress, postalCode, phone, divId);
+        Inventory.allCustomers.add(customer);
+
         return rowsAffected;
     }
 
@@ -166,4 +169,20 @@ public abstract class CustomerQuery {
         }
         return canadaRegions;
     }
+
+    public static ObservableList<Integer> getCountry(int divId) throws SQLException {
+
+        ObservableList<Integer> country = FXCollections.observableArrayList();
+
+        String sql = "SELECT Country_ID FROM first_level_divisions WHERE Division_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, divId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int countryId = rs.getInt("Country_ID");
+            country.add(countryId);
+        }
+        return country;
+    }
+
 }

@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Customer;
 import Model.CustomerQuery;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,7 +41,7 @@ public class UpdateCustomerController implements Initializable {
     @FXML
     private ComboBox<String> stateid;
 
-    public void regionFilter(ActionEvent event) throws SQLException {
+    /*public void regionFilter(ActionEvent event) throws SQLException {
         if(countryid.getValue() != null){
             String id = countryid.getValue();
             if(id.contains("1")){
@@ -61,7 +62,7 @@ public class UpdateCustomerController implements Initializable {
 
         }
 
-    }
+    }*/
 
     public void setCustomer(Customer customer) throws SQLException {
 
@@ -74,10 +75,10 @@ public class UpdateCustomerController implements Initializable {
         stateid.setValue(divId);
 
         //PICK UP HERE! Isolated country ID, need to do the same for div ID
-        /*ObservableList<Integer> countries = (CustomerQuery.getCountry(customer.getDivId()));
+        ObservableList<Integer> countries = (CustomerQuery.getCountry(customer.getDivId()));
         int countryId = countries.get(0);
         String id = String.valueOf(countryId);
-        countryid.setValue(id);*/
+        countryid.setValue(id);
 
     }
 

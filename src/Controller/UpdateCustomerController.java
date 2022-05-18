@@ -71,21 +71,23 @@ public class UpdateCustomerController implements Initializable {
         addressid.setText(customer.getAddress());
         postalcodeid.setText(customer.getPostalCode());
         phoneid.setText(customer.getPhone());
-        String divId = String.valueOf(customer.getDivId());
-        stateid.setValue(divId);
+        int divId = customer.getDivId();
+        ObservableList<String> firstLevel = CustomerQuery.getFirstLevel(divId);
+        String customerLevel = firstLevel.get(0);
+        stateid.setValue(customerLevel);
 
         //PICK UP HERE! Isolated country ID, need to do the same for div ID
-        ObservableList<Integer> countries = (CustomerQuery.getCountry(customer.getDivId()));
-        int countryId = countries.get(0);
-        if(countryId == 1){
+        ObservableList<String> countries = (CustomerQuery.getCountry(customer.getDivId()));
+        String countryId = countries.get(0);
+        if(countryId.contains("1")){
             ObservableList<String> usRegions = CustomerQuery.viewUSRegions();
             stateid.setItems(usRegions);
         }
-        if(countryId == 2){
+        if(countryId.contains("2")){
             ObservableList<String> ukRegions = CustomerQuery.viewUKRegions();
             stateid.setItems(ukRegions);
         }
-        if(countryId == 3){
+        if(countryId.contains("3")){
             ObservableList<String> canadaRegions = CustomerQuery.viewCanadaRegions();
             stateid.setItems(canadaRegions);
         }

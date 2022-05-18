@@ -74,26 +74,23 @@ public abstract class CustomerQuery {
         }
     }
 
-    /*public static void select(int divId) throws SQLException {
-        String sql = "SELECT * FROM customers WHERE Division_ID = ?";
+    public static ObservableList<String> getFirstLevel(int divId) throws SQLException {
+
+        ObservableList<String> firstLevel = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, divId);
         ResultSet rs = ps.executeQuery();
         while(rs.next()){
-            int customerId = rs.getInt("Customer_ID");
-            String customerName = rs.getString("Customer_Name");
-            String address = rs.getString("Address");
-            String postalCode = rs.getString("Postal_Code");
-            String phone = rs.getString("Phone");
             int divisionId = rs.getInt("Division_ID");
-            System.out.print(customerId + " | ");
-            System.out.print(customerName + " | ");
-            System.out.print(address + " | ");
-            System.out.print(postalCode + " | ");
-            System.out.print(phone + " | ");
-            System.out.print(divisionId + "\n");
+            String divName = rs.getString("Division");
+
+            String completeDivision = divisionId + ": " + divName;
+            firstLevel.add(completeDivision);
         }
-    }*/
+        return firstLevel;
+    }
 
     public static ObservableList<String> viewAllCountries() throws SQLException {
 
@@ -170,17 +167,28 @@ public abstract class CustomerQuery {
         return canadaRegions;
     }
 
-    public static ObservableList<Integer> getCountry(int divId) throws SQLException {
+    public static ObservableList<String> getCountry(int divId) throws SQLException {
 
-        ObservableList<Integer> country = FXCollections.observableArrayList();
+        ObservableList<String> country = FXCollections.observableArrayList();
 
-        String sql = "SELECT Country_ID FROM first_level_divisions WHERE Division_ID = ?";
+        String sql = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, divId);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int countryId = rs.getInt("Country_ID");
-            country.add(countryId);
+            String name = null;
+            if(countryId == 1){
+                name = "U.S.";
+            }
+            if(countryId == 2){
+                name = "UK";
+            }
+            if(countryId == 3){
+                name = "Canada";
+            }
+            String completeName = countryId + ": " + name;
+            country.add(completeName);
         }
         return country;
     }

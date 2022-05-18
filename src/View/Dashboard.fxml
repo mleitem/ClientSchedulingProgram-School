@@ -69,7 +69,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#addCustomer" prefWidth="55.0" text="New" />
             <Button mnemonicParsing="false" onAction="#updateCustomer" text="Update" />
-            <Button mnemonicParsing="false" prefWidth="55.0" text="Delete" />
+            <Button mnemonicParsing="false" onAction="#deleteCustomer" prefWidth="55.0" text="Delete" />
          </children>
       </HBox>
    </children>

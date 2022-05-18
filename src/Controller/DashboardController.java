@@ -218,6 +218,20 @@ public class DashboardController implements Initializable {
         controller.setCustomer(customer);
     }
 
+    public void deleteCustomer(ActionEvent event) throws SQLException, IOException {
+        Customer customer = customertableview.getSelectionModel().getSelectedItem();
+        int id = customer.getId();
+        CustomerQuery.deleteCustomerAppointments(id);
+        CustomerQuery.deleteCustomer(id);
+
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboard.fxml"));
+        scene = loader.load();
+        Scene root = new Scene(scene);
+        stage.setScene(root);
+        stage.show();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

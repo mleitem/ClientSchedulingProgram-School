@@ -28,11 +28,16 @@ public abstract class CustomerQuery {
         return rowsAffected;
     }
 
-    public static int updateCustomer(int customerId, String customerName) throws SQLException {
-        String sql = "UPDATE customers SET Customer_Name = ? WHERE Customer_ID = ?";
+    public static int updateCustomer(int id, String name, String address, String postal, String phone, int divId) throws SQLException {
+        String sql = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Division_ID = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, customerName);
-        ps.setInt(2,customerId);
+        ps.setString(1, name);
+        ps.setString(2, address);
+        ps.setString(3, postal);
+        ps.setString(4, phone);
+        ps.setInt(5, divId);
+        ps.setInt(6, id);
+
 
         int rowsAffected = ps.executeUpdate();
 

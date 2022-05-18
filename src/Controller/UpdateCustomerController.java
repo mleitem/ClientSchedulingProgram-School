@@ -6,12 +6,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -137,6 +141,26 @@ public class UpdateCustomerController implements Initializable {
 
 
             }
+
+    public void saveButton(ActionEvent event) throws SQLException, IOException {
+        int id = Integer.parseInt(customerid.getText());
+        String name = nameid.getText();
+        String address = addressid.getText();
+        String postal = postalcodeid.getText();
+        String phone = phoneid.getText();
+        String divId = stateid.getValue();
+        divId = divId.split(":")[0];
+        int newId = Integer.parseInt(divId);
+
+        CustomerQuery.updateCustomer(id, name, address, postal, phone, newId);
+
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
+        scene = loader.load();
+        Scene root = new Scene(scene);
+        stage.setScene(root);
+        stage.show();
+    }
 
 
     @Override

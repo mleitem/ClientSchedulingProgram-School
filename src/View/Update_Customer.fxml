@@ -46,7 +46,7 @@
             <HBox alignment="CENTER" layoutX="10.0" layoutY="85.0" prefHeight="22.0" prefWidth="297.0" spacing="20.0">
                <children>
                   <Label prefHeight="17.0" prefWidth="92.0" text="Country:" />
-                  <ComboBox fx:id="countryid" prefWidth="150.0" />
+                  <ComboBox fx:id="countryid" onAction="#regionFilter" prefWidth="150.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" layoutX="10.0" layoutY="160.0" prefHeight="22.0" prefWidth="297.0" spacing="20.0">

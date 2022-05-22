@@ -219,10 +219,32 @@ public class DashboardController implements Initializable {
     }
 
     public void deleteCustomer(ActionEvent event) throws SQLException, IOException {
-        Customer customer = customertableview.getSelectionModel().getSelectedItem();
-        int id = customer.getId();
-        CustomerQuery.deleteCustomerAppointments(id);
-        CustomerQuery.deleteCustomer(id);
+
+        if (customertableview.getSelectionModel().isEmpty()) {
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
+            noSelectionAlert.setTitle("Error");
+            noSelectionAlert.setContentText("Please choose a customer to delete.");
+            noSelectionAlert.showAndWait();
+        }
+
+        else {
+            Customer customer = customertableview.getSelectionModel().getSelectedItem();
+            int id = customer.getId();
+            String name = customer.getName();
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wand to delete Customer ID: " + id + " - " + name);
+            confirmation.setTitle("Delete Confirmation");
+            Optional<ButtonType> result = confirmation.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                CustomerQuery.deleteCustomerAppointments(id);
+                CustomerQuery.deleteCustomer(id);
+
+                Alert deleteConfirmation = new Alert(Alert.AlertType.INFORMATION);
+                deleteConfirmation.setTitle("Confirmation");
+                deleteConfirmation.setContentText("Customer ID: " + id + "   /   " + "Name: " + name + " deleted.");
+                deleteConfirmation.showAndWait();
+            }
+        }
 
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboard.fxml"));

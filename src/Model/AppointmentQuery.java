@@ -54,23 +54,6 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
-    /*public static void addAppointment(String title, String description, String location, String type, Date start, Date end, int customerId, int userId, int contactId) throws SQLException {
-        String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, title);
-        ps.setString(2, description);
-        ps.setString(3, location);
-        ps.setString(4, type);
-        ps.setDate(5, (java.sql.Date) start);
-        ps.setDate(6, (java.sql.Date) end);
-        ps.setInt(7, customerId);
-        ps.setInt(8, userId);
-        ps.setInt(9, contactId);
-        Appointment appointment = new Appointment(title, description, location, type, start, end, customerId, userId, contactId);
-        Customer.addAppointment(appointment);
-
-    }*/
-
     public static int addAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
         String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -105,9 +88,6 @@ public abstract class AppointmentQuery {
         ps.setInt(9, contactId);
         ps.setInt(10, id);
         int rowsAffected = ps.executeUpdate();
-
-        //Appointment appointment = new Appointment(title, description, location, type, start, end, customerId, userId, contactId);
-        //Inventory.addAppointment(appointment);
 
         return rowsAffected;
     }
@@ -174,7 +154,7 @@ public abstract class AppointmentQuery {
         LocalTime end = LocalTime.of(16, 30);
         while(start.isBefore(end.plusSeconds(1))) {
             startTimes.add(start);
-            start = start.plusMinutes(30);
+            start = start.plusMinutes(15);
         }
         return startTimes;
     }
@@ -186,12 +166,10 @@ public abstract class AppointmentQuery {
         LocalTime end = LocalTime.of(17, 30);
         while(start.isBefore(end.plusSeconds(1))) {
             endTimes.add(start);
-            start = start.plusMinutes(30);
+            start = start.plusMinutes(15);
         }
         return endTimes;
     }
-
-
 
     public static ObservableList<Integer> viewAllUsers() throws SQLException {
 

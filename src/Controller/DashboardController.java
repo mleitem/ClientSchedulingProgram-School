@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -96,19 +97,21 @@ public class DashboardController implements Initializable {
     private TableColumn<Appointment, Integer> useridcol;
 
 
-    /** This is the listener for the radio buttons **/
+    /**
+     * This is the listener for the radio buttons
+     **/
     public void radioSelect(ActionEvent event) throws SQLException {
-        if(monthbuttonid.isSelected()){
+        if (monthbuttonid.isSelected()) {
             //AppointmentQuery.viewThisMonthAppointments();
             ObservableList<Appointment> monthAppointments = AppointmentQuery.viewThisMonthAppointments();
             appointmentstableview.setItems(monthAppointments);
         }
-        if(weekbuttonid.isSelected()){
+        if (weekbuttonid.isSelected()) {
             //AppointmentQuery.viewThisWeekAppointments();
             ObservableList<Appointment> weekAppointments = AppointmentQuery.viewThisWeekAppointments();
             appointmentstableview.setItems(weekAppointments);
         }
-        if(allbuttonid.isSelected()){
+        if (allbuttonid.isSelected()) {
             appointmentstableview.setItems(Inventory.getAllAppointments());
         }
     }
@@ -144,8 +147,7 @@ public class DashboardController implements Initializable {
             noSelectionAlert.setTitle("Error");
             noSelectionAlert.setContentText("Please choose an appointment to delete.");
             noSelectionAlert.showAndWait();
-        }
-        else {
+        } else {
             Appointment appointment = appointmentstableview.getSelectionModel().getSelectedItem();
             int id = appointment.getAppointmentId();
             String type = appointment.getType();
@@ -175,6 +177,53 @@ public class DashboardController implements Initializable {
 
         }
     }
+
+    /*public static void viewTodayAppointments() throws SQLException {
+        ObservableList<Appointment> todayAppointments = AppointmentQuery.viewTodayAppointments();
+        ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
+
+        if (todayAppointments.size() > 0) {
+
+            for (int i = 0; i < todayAppointments.size(); ++i) {
+                Appointment appointment = todayAppointments.get(i);
+                Timestamp start = appointment.getStart();
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime later = now.plusMinutes(15);
+                LocalDateTime ldtStart = start.toLocalDateTime();
+
+                if (ldtStart.isBefore(later) && ldtStart.isAfter(now)) {
+                    filteredAppointments.add(appointment);
+                }
+            }
+
+        }
+
+        if (filteredAppointments.size() > 0) {
+
+            String appointmentsList = null;
+            for (int i = 0; i < filteredAppointments.size(); i++) {
+                Appointment appointment = filteredAppointments.get(i);
+                int id = appointment.getAppointmentId();
+                Timestamp start = appointment.getStart();
+
+                String nextAppointment = "Appointment ID: " + id + " - Start Time: " + start + "/n";
+                appointmentsList.concat(nextAppointment);
+
+            }
+            Alert noSelectionAlert = new Alert(Alert.AlertType.INFORMATION);
+            noSelectionAlert.setTitle("Upcoming Appointments");
+            noSelectionAlert.setContentText("Appointments Starting in the Next 15 Minutes: /n" + appointmentsList);
+            noSelectionAlert.showAndWait();
+        }
+        else {
+            Alert noSelectionAlert = new Alert(Alert.AlertType.INFORMATION);
+            noSelectionAlert.setTitle("Upcoming Appointments");
+            noSelectionAlert.setContentText("No appointments in the next 15 minutes.");
+            noSelectionAlert.showAndWait();
+        }
+    }*/
+
+
 
     /** This method generates appointments table.
     private void generateAppointmentsTable() {
@@ -263,11 +312,14 @@ public class DashboardController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
         try {
             AppointmentQuery.allAppointments();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+
 
 
         //generateAppointmentsTable();

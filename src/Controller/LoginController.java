@@ -1,8 +1,11 @@
 package Controller;
 
 import Helper.JDBC;
+import Model.Appointment;
 import Model.AppointmentQuery;
 import Model.CustomerQuery;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +23,8 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -47,6 +52,55 @@ public class LoginController implements Initializable {
         closeStage.close();
     }
 
+    public static void viewTodayAppointments() throws SQLException {
+        ObservableList<Appointment> todayAppointments = AppointmentQuery.viewTodayAppointments();
+        ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
+
+        if (todayAppointments.size() > 0) {
+
+            for (int i = 0; i < todayAppointments.size(); ++i) {
+                Appointment appointment = todayAppointments.get(i);
+                Timestamp start = appointment.getStart();
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime later = now.plusMinutes(15);
+                LocalDateTime ldtStart = start.toLocalDateTime();
+
+                if (ldtStart.isBefore(later) && ldtStart.isAfter(now)) {
+                    filteredAppointments.add(appointment);
+                }
+            }
+
+
+            if (filteredAppointments.size() > 0) {
+
+                String upcomingAppointments = "Appointments starting in the next 15 minutes: \n";
+                for (int i = 0; i < filteredAppointments.size(); i++) {
+                    Appointment appointment = filteredAppointments.get(i);
+                    int id = appointment.getAppointmentId();
+                    Timestamp start = appointment.getStart();
+
+                    String addedAppointment = "Appointment ID: " + id + " - Start Time: " + start + "\n";
+
+                    upcomingAppointments = upcomingAppointments.concat(addedAppointment);
+
+                    System.out.println(upcomingAppointments);
+
+
+                }
+                Alert noSelectionAlert = new Alert(Alert.AlertType.INFORMATION);
+                noSelectionAlert.setTitle("Upcoming Appointments");
+                noSelectionAlert.setContentText(upcomingAppointments);
+                noSelectionAlert.showAndWait();
+            } else {
+                Alert noSelectionAlert = new Alert(Alert.AlertType.INFORMATION);
+                noSelectionAlert.setTitle("Upcoming Appointments");
+                noSelectionAlert.setContentText("No appointments in the next 15 minutes.");
+                noSelectionAlert.showAndWait();
+            }
+        }
+    }
+
+
     @FXML
     public void loginButton(ActionEvent event) throws IOException, SQLException {
         String username = usernameid.getText();
@@ -54,6 +108,7 @@ public class LoginController implements Initializable {
 
         if (login(username, password) == true) {
             //AppointmentQuery.allAppointments();
+            viewTodayAppointments();
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
             scene = loader.load();

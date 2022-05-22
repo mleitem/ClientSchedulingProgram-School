@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -200,7 +201,6 @@ public abstract class AppointmentQuery {
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-
             int userId = rs.getInt("User_ID");
             allUsers.add(userId);
             System.out.println(userId);
@@ -208,60 +208,6 @@ public abstract class AppointmentQuery {
         return allUsers;
     }
 
-    /*public static ObservableList<Appointment> viewNextMonthAppointments() throws SQLException {
-
-        ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
-
-        Appointment appointment = null;
-        String sql = "SELECT * FROM appointments WHERE YEAR(Start) = YEAR(now()) AND MONTH(Start) + INTERVAL 1 MONTH  = MONTH(now() + INTERVAL 1 MONTH)";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while(rs.next()) {
-            int appointmentId = rs.getInt("Appointment_ID");
-
-            for(int i = 0; i < Customer.associatedAppointments.size(); ++i){
-                appointment = Customer.associatedAppointments.get(i);
-                if (appointment.getAppointmentId() == appointmentId) {
-                    filteredAppointments.add(appointment);
-                }
-            }
-        }
-        return filteredAppointments;
-    }
-
-    public static void viewLastMonthAppointments() throws SQLException {
-
-        String sql = "SELECT * FROM appointments WHERE YEAR(Start) = YEAR(now()) AND MONTH(Start) - INTERVAL 1 MONTH = MONTH(now() - INTERVAL 1 MONTH)";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            String title = rs.getString("Title");
-            System.out.println(title);
-        }
-    }
-
-    public static void viewNextWeekAppointments() throws SQLException {
-
-        String sql = "SELECT * FROM appointments WHERE YEARWEEK(Start) = YEARWEEK(now() + INTERVAL 1 WEEK)";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            String title = rs.getString("Title");
-            System.out.println(title);
-
-        }
-    }
-
-    public static void viewLastWeekAppointments() throws SQLException {
-
-        String sql = "SELECT * FROM appointments WHERE YEARWEEK(Start) = YEARWeek(now() - INTERVAL 1 WEEK)";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            String title = rs.getString("Title");
-            System.out.println(title);
-        }
-    }*/
 
     public static ObservableList<Appointment> viewThisWeekAppointments() throws SQLException {
 
@@ -283,6 +229,27 @@ public abstract class AppointmentQuery {
         return filteredAppointments;
     }
 
+
+    public static ObservableList<Appointment> viewTodayAppointments() throws SQLException {
+
+        allAppointments();
+        ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
+
+        Appointment appointment = null;
+        String sql = "SELECT * FROM appointments WHERE Date(Start) = curdate()";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int appointmentId = rs.getInt("Appointment_ID");
+            for(int i = 0; i < Inventory.allAppointments.size(); ++i){
+                appointment = Inventory.allAppointments.get(i);
+                if (appointment.getAppointmentId() == appointmentId) {
+                    filteredAppointments.add(appointment);
+                }
+            }
+        }
+        return filteredAppointments;
+    }
 
 
 }

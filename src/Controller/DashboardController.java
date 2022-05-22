@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -68,7 +69,7 @@ public class DashboardController implements Initializable {
     private TableColumn<Customer, Integer> dividcol;
 
     @FXML
-    private TableColumn<Appointment, Date> endcol;
+    private TableColumn<Appointment, Timestamp> endcol;
 
     @FXML
     private TableColumn<Appointment, String> locationcol;
@@ -83,7 +84,7 @@ public class DashboardController implements Initializable {
     private TableColumn<Customer, String> postalcodecol;
 
     @FXML
-    private TableColumn<Appointment, Date> startcol;
+    private TableColumn<Appointment, Timestamp> startcol;
 
     @FXML
     private TableColumn<Appointment, String> titlecol;

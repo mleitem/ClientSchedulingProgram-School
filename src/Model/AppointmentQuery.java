@@ -9,6 +9,7 @@ import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -27,8 +28,8 @@ public abstract class AppointmentQuery {
             String description = rs.getString("Description");
             String location = rs.getString("Location");
             String type = rs.getString("Type");
-            Date start = rs.getDate("Start");
-            Date end = rs.getDate("End");
+            Timestamp start = rs.getTimestamp("Start");
+            Timestamp end = rs.getTimestamp("End");
             int customerId1 = rs.getInt("Customer_ID");
             int userId = rs.getInt("User_ID");
             int contactId = rs.getInt("Contact_ID");
@@ -69,15 +70,15 @@ public abstract class AppointmentQuery {
 
     }*/
 
-    public static int addAppointment(String title, String description, String location, String type, Date start, Date end, int customerId, int userId, int contactId) throws SQLException {
+    public static int addAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
         String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, title);
         ps.setString(2, description);
         ps.setString(3, location);
         ps.setString(4, type);
-        ps.setDate(5, (java.sql.Date) start);
-        ps.setDate(6, (java.sql.Date) end);
+        ps.setTimestamp(5, start);
+        ps.setTimestamp(6, end);
         ps.setInt(7, customerId);
         ps.setInt(8, userId);
         ps.setInt(9, contactId);
@@ -89,15 +90,15 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
-    public static int updateAppointment(int id, String title, String description, String location, String type, Date start, Date end, int customerId, int userId, int contactId) throws SQLException {
+    public static int updateAppointment(int id, String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, title);
         ps.setString(2, description);
         ps.setString(3, location);
         ps.setString(4, type);
-        ps.setDate(5, (java.sql.Date) start);
-        ps.setDate(6, (java.sql.Date) end);
+        ps.setTimestamp(5, start);
+        ps.setTimestamp(6, end);
         ps.setInt(7, customerId);
         ps.setInt(8, userId);
         ps.setInt(9, contactId);

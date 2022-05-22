@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -105,8 +106,6 @@ public class AddAppointmentController implements Initializable {
 
     public void submitAppointment(ActionEvent event) throws SQLException, IOException {
 
-        int size = Customer.getAllAppointments().size();
-
         String title = titleid.getText();
         String description = descriptionid.getText();
         String location = locationid.getText();
@@ -121,9 +120,9 @@ public class AddAppointmentController implements Initializable {
 
         //Combine date/time entries to get one entry for the constuctor
         LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
-        java.sql.Date sqlDateEnd = java.sql.Date.valueOf(endDateTime.toLocalDate());
+        Timestamp sqlDateEnd = Timestamp.valueOf(endDateTime);
         LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
-        java.sql.Date sqlDateStart = java.sql.Date.valueOf(startDateTime.toLocalDate());
+        Timestamp sqlDateStart = Timestamp.valueOf(startDateTime);
 
         AppointmentQuery.addAppointment(title, description, location, type, sqlDateStart, sqlDateEnd, customerId, userId, contactId);
 

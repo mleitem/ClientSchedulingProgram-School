@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -125,30 +126,20 @@ public class UpdateAppointmentController implements Initializable {
         String description = descriptionid.getText();
         String location  = locationid.getText();
         String type = typeid.getText();
-        //LocalDate startDate = startdateid.getValue();
-        //LocalDate endDate = enddateid.getValue();
-        //LocalTime startTime = starttimeid.getValue();
-        //LocalTime endTime = endtimeid.getValue();
+        LocalDate startDate = startdateid.getValue();
+        LocalDate endDate = enddateid.getValue();
+        LocalTime startTime = starttimeid.getValue();
+        LocalTime endTime = endtimeid.getValue();
         int customerId = customerid.getValue();
         int userId = userid.getValue();
         int contactId = contactid.getValue();
 
         //Combine date/time entries to get one entry for the constuctor
-        /*LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
-        Date sqlDateEnd = java.sql.Date.valueOf(endDateTime.toLocalDate());
         LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
-        Date sqlDateStart = java.sql.Date.valueOf(startDateTime.toLocalDate());*/
+        Timestamp sqlDateStart = Timestamp.valueOf(startDateTime);
 
-        LocalDate startDate = LocalDate.of(2022, 12, 20);
-        LocalTime startTime = LocalTime.of(10, 00);
-        LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
-        java.sql.Date sqlDateStart = java.sql.Date.valueOf(startDateTime.toLocalDate());
-        ///Date start = Date.valueOf()
-
-        LocalDate endDate = LocalDate.of(2022, 12, 20);
-        LocalTime endTime = LocalTime.of(11, 00);
         LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
-        java.sql.Date sqlDateEnd = java.sql.Date.valueOf(endDateTime.toLocalDate());
+        Timestamp sqlDateEnd = Timestamp.valueOf(endDateTime);
 
 
         AppointmentQuery.updateAppointment(id, title, description, location, type, sqlDateStart, sqlDateEnd, customerId, userId, contactId);

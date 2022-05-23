@@ -124,14 +124,22 @@ public class AddAppointmentController implements Initializable {
         LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
         Timestamp sqlDateStart = Timestamp.valueOf(startDateTime);
 
-        AppointmentQuery.addAppointment(title, description, location, type, sqlDateStart, sqlDateEnd, customerId, userId, contactId);
+        ObservableList<Appointment> customerAppointments = AppointmentQuery.viewCustomerAppointments(customerId, sqlDateStart, sqlDateEnd);
+        if(customerAppointments.size() > 0) {
+            System.out.println("There's a conflict!");
+        }
 
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
-        scene = loader.load();
-        Scene root = new Scene(scene);
-        stage.setScene(root);
-        stage.show();
+        else {
+            AppointmentQuery.addAppointment(title, description, location, type, sqlDateStart, sqlDateEnd, customerId, userId, contactId);
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
+            scene = loader.load();
+            Scene root = new Scene(scene);
+            stage.setScene(root);
+            stage.show();
+        }
+
+
 
 
     }

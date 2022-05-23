@@ -151,7 +151,7 @@ public abstract class AppointmentQuery {
 
         ObservableList<LocalTime> startTimes = FXCollections.observableArrayList();
         LocalTime start = LocalTime.of(8,0);
-        LocalTime end = LocalTime.of(16, 30);
+        LocalTime end = LocalTime.of(19, 00);
         while(start.isBefore(end.plusSeconds(1))) {
             startTimes.add(start);
             start = start.plusMinutes(15);
@@ -163,7 +163,7 @@ public abstract class AppointmentQuery {
 
         ObservableList<LocalTime> endTimes = FXCollections.observableArrayList();
         LocalTime start = LocalTime.of(9,0);
-        LocalTime end = LocalTime.of(17, 30);
+        LocalTime end = LocalTime.of(20, 00);
         while(start.isBefore(end.plusSeconds(1))) {
             endTimes.add(start);
             start = start.plusMinutes(15);
@@ -228,6 +228,31 @@ public abstract class AppointmentQuery {
         }
         return filteredAppointments;
     }
+
+    public static ObservableList<Appointment> viewCustomerAppointments(int customerId, Timestamp start, Timestamp end) throws SQLException {
+
+        ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+
+        Appointment appointment = null;
+        String sql = "SELECT * FROM appointments WHERE Customer_ID = ? AND Start BETWEEN ? AND ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, customerId);
+        ps.setTimestamp(2, start);
+        ps.setTimestamp(3, end);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int appointmentId = rs.getInt("Appointment_ID");
+
+            for(int i = 0; i < Inventory.allAppointments.size(); ++i){
+                appointment = Inventory.allAppointments.get(i);
+                if (appointment.getAppointmentId() == appointmentId) {
+                    customerAppointments.add(appointment);
+                }
+            }
+        }
+        return customerAppointments;
+    }
+
 
 
 }

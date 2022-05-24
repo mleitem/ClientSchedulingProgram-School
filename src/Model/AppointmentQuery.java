@@ -126,7 +126,7 @@ public abstract class AppointmentQuery {
 
             int contactId = rs.getInt("Contact_ID");
             allContacts.add(contactId);
-            System.out.println(contactId);
+
         }
         return allContacts;
     }

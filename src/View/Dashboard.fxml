@@ -72,5 +72,6 @@
             <Button mnemonicParsing="false" onAction="#deleteCustomer" prefWidth="55.0" text="Delete" />
          </children>
       </HBox>
+      <Button layoutX="783.0" layoutY="304.0" mnemonicParsing="false" onAction="#viewReports" prefHeight="25.0" prefWidth="147.0" text="View Reports" />
    </children>
 </AnchorPane>

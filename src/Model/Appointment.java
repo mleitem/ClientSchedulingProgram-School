@@ -2,6 +2,7 @@ package Model;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Appointment {
@@ -16,6 +17,9 @@ public class Appointment {
     private int customerId;
     private int userId;
     private int contactId;
+    private int year;
+    private String month;
+    private int numTimes;
 
     public Appointment(int appointmentId, String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) {
         this.appointmentId = appointmentId;
@@ -33,6 +37,9 @@ public class Appointment {
     public Appointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) {
     }
 
+    public Appointment(String type, String month, int year, int numTimes){
+
+    }
 
     public int getAppointmentId() {
         return appointmentId;

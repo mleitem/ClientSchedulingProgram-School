@@ -4,6 +4,7 @@ import Helper.JDBC;
 import Model.Appointment;
 import Model.AppointmentQuery;
 import Model.CustomerQuery;
+import com.company.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,11 +17,13 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 import java.util.TimeZone;
 
 public class LoginController implements Initializable {
@@ -104,9 +107,17 @@ public class LoginController implements Initializable {
     public void loginButton(ActionEvent event) throws IOException, SQLException {
         String username = usernameid.getText();
         String password = passwordid.getText();
+        String filename = "login_activity.txt", user, result;
+        Scanner keyboard = new Scanner(System.in);
+        PrintWriter outputFile = new PrintWriter(filename);
+        user = usernameid.getText();
 
         if (login(username, password) == true) {
-            //AppointmentQuery.allAppointments();
+
+            result = "Success";
+            outputFile.println(user + " " + result);
+            keyboard.nextLine();
+            outputFile.close();
             viewTodayAppointments();
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
@@ -115,6 +126,10 @@ public class LoginController implements Initializable {
             stage.setScene(root);
             stage.show();
         } else {
+            result = "Attempt Failed";
+            outputFile.println(user + " " + result);
+            keyboard.nextLine();
+            outputFile.close();
             Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
             noSelectionAlert.setTitle("Error");
             noSelectionAlert.setContentText("Invalid username or password.");

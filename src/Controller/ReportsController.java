@@ -155,6 +155,7 @@ public class ReportsController implements Initializable {
             throwables.printStackTrace();
         }
 
+
         monthappointmentstable.setItems(Inventory.getAllAppointments());
         appointmentid1.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         title1.setCellValueFactory(new PropertyValueFactory<>("title"));

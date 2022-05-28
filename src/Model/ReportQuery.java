@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public abstract class ReportQuery {
 
@@ -96,6 +97,38 @@ public abstract class ReportQuery {
         }
         return appointments;
     }
+
+    /*public static ObservableList<Appointment> totalByType() throws SQLException {
+
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+
+        Appointment appointment = null;
+        String sql = "SELECT Type, Start FROM appointments";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            String type = rs.getString("Type");
+            Timestamp start = rs.getTimestamp("Start");
+
+            LocalDateTime ldt = start.toLocalDateTime();
+            String appointmentMonth = ldt.getMonth().toString();
+            int appointmentYear = ldt.getYear();
+            int count = 1;
+
+            for(int i = 0; i < Inventory.getAllAppointments().size(); i++) {
+                appointment = Inventory.allAppointments.get(i);
+                LocalDateTime appointmentStart = (appointment.getStart()).toLocalDateTime();
+                String compMonth = appointmentStart.getMonth().toString();
+                int compYear = appointmentStart.getYear();
+                if(appointment.getType().equalsIgnoreCase(type) && compMonth.equals(appointmentMonth) && compYear == appointmentYear) {
+                    count = count + 1;
+                }
+            }
+            Appointment addAppointment = new Appointment(type, appointmentMonth, appointmentYear, count);
+            appointments.add(addAppointment);
+        }
+        return appointments;
+    }*/
 
 
 }

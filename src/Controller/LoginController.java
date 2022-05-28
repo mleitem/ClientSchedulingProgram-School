@@ -116,7 +116,6 @@ public class LoginController implements Initializable {
         String username = usernameid.getText();
         String password = passwordid.getText();
         String filename = "login_activity.txt", user, date, time, result;
-        Scanner keyboard = new Scanner(System.in);
         FileWriter fwriter = new FileWriter(filename, true);
         PrintWriter outputFile = new PrintWriter(fwriter);
         user = usernameid.getText();

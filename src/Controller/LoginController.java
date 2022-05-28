@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ResourceBundle;
@@ -45,6 +46,8 @@ public class LoginController implements Initializable {
 
     @FXML
     private Button loginbuttonid;
+
+
 
     /** When this event handler is called, the program will exit. */
     @FXML
@@ -102,6 +105,10 @@ public class LoginController implements Initializable {
         }
     }
 
+    public void addToLog(String user, LocalDate date, Timestamp time, String result) {
+
+    }
+
 
     @FXML
     public void loginButton(ActionEvent event) throws IOException, SQLException {
@@ -109,14 +116,14 @@ public class LoginController implements Initializable {
         String password = passwordid.getText();
         String filename = "login_activity.txt", user, result;
         Scanner keyboard = new Scanner(System.in);
-        PrintWriter outputFile = new PrintWriter(filename);
+        FileWriter fwriter = new FileWriter(filename, true);
+        PrintWriter outputFile = new PrintWriter(fwriter);
         user = usernameid.getText();
 
         if (login(username, password) == true) {
 
             result = "Success";
-            outputFile.println(user + " " + result);
-            keyboard.nextLine();
+            outputFile.println(user + " " + result + "\n");
             outputFile.close();
             viewTodayAppointments();
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -127,8 +134,7 @@ public class LoginController implements Initializable {
             stage.show();
         } else {
             result = "Attempt Failed";
-            outputFile.println(user + " " + result);
-            keyboard.nextLine();
+            outputFile.println(user + " " + result + "\n");
             outputFile.close();
             Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
             noSelectionAlert.setTitle("Error");
@@ -161,8 +167,9 @@ public class LoginController implements Initializable {
         TimeZone localTZ = TimeZone.getDefault();
         String displayZone = localTZ.getDisplayName();
 
-
         zoneid.setText(displayZone);
+
+
 
 
 

@@ -23,6 +23,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.TimeZone;
@@ -114,16 +115,20 @@ public class LoginController implements Initializable {
     public void loginButton(ActionEvent event) throws IOException, SQLException {
         String username = usernameid.getText();
         String password = passwordid.getText();
-        String filename = "login_activity.txt", user, result;
+        String filename = "login_activity.txt", user, date, time, result;
         Scanner keyboard = new Scanner(System.in);
         FileWriter fwriter = new FileWriter(filename, true);
         PrintWriter outputFile = new PrintWriter(fwriter);
         user = usernameid.getText();
+        LocalDateTime loginTime = LocalDateTime.now();
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
+        String formattedDate = loginTime.format(dateFormat);
+
 
         if (login(username, password) == true) {
 
             result = "Success";
-            outputFile.println(user + " " + result + "\n");
+            outputFile.println(user + " | " + result + " | " + formattedDate + " | ");
             outputFile.close();
             viewTodayAppointments();
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -133,8 +138,8 @@ public class LoginController implements Initializable {
             stage.setScene(root);
             stage.show();
         } else {
-            result = "Attempt Failed";
-            outputFile.println(user + " " + result + "\n");
+            result = "Failed";
+            outputFile.println(user + " | " + result + " | " + formattedDate + " | ");
             outputFile.close();
             Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
             noSelectionAlert.setTitle("Error");

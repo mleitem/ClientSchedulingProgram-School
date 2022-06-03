@@ -62,7 +62,7 @@ public class LoginController implements Initializable {
     private Button loginbuttonid;
 
 
-    ResourceBundle rb = ResourceBundle.getBundle("Helper/frBundle", Locale.getDefault());
+    ResourceBundle rb = ResourceBundle.getBundle("Helper/frBundle", Locale.FRANCE);
 
     /** When this event handler is called, the program will exit. */
     @FXML

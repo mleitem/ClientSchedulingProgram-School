@@ -2,6 +2,7 @@ package Controller;
 
 import Helper.JDBC;
 import Model.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -99,27 +100,27 @@ public class ReportsController implements Initializable {
     private TableColumn<Appointment, Integer> userid2;
 
     @FXML
-    private TextField searchid;
-
-    @FXML
     private Label totalid;
 
     @FXML
     private Label totalcontactappointments;
 
     @FXML
-    public void submitButton1(ActionEvent event) throws IOException, SQLException {
-        String search = searchid.getText();
+    private ComboBox<String> typecomboid;
 
-        ObservableList<Appointment> monthAppointments = ReportQuery.totalAppointmentsByMonth(search);
-        ObservableList<Appointment> typeAppointments = ReportQuery.totalAppointmentsByType(search);
-        if(monthAppointments.size() > 0) {
-            monthappointmentstable.setItems(monthAppointments);
-            totalid.setText(String.valueOf(monthAppointments.size()));
-        }
-        else if(typeAppointments.size() > 0) {
-            monthappointmentstable.setItems(typeAppointments);
-            totalid.setText(String.valueOf(typeAppointments.size()));
+    @FXML
+    private ComboBox<String> monthcomboid;
+
+    @FXML
+    public void submitButton1(ActionEvent event) throws IOException, SQLException {
+        String type = typecomboid.getValue();
+        String month = monthcomboid.getValue();
+
+        ObservableList<Appointment> monthTypeAppointments = ReportQuery.totalAppointmentsByTypeMonth(type, month);
+
+        if(monthTypeAppointments.size() > 0) {
+            monthappointmentstable.setItems(monthTypeAppointments);
+            totalid.setText(String.valueOf(monthTypeAppointments.size()));
         }
         else {
             System.out.println("No Matches");
@@ -155,6 +156,27 @@ public class ReportsController implements Initializable {
             throwables.printStackTrace();
         }
 
+
+        ObservableList<String> months = FXCollections.observableArrayList();
+        months.add("January");
+        months.add("February");
+        months.add("March");
+        months.add("April");
+        months.add("May");
+        months.add("June");
+        months.add("July");
+        months.add("August");
+        months.add("September");
+        months.add("October");
+        months.add("November");
+        months.add("December");
+
+        monthcomboid.setItems(months);
+        try {
+            typecomboid.setItems(ReportQuery.viewAppointmentTypes());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         monthappointmentstable.setItems(Inventory.getAllAppointments());
         appointmentid1.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));

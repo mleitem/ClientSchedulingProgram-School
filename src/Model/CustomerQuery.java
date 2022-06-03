@@ -44,7 +44,7 @@ public abstract class CustomerQuery {
         return rowsAffected;
     }
 
-    // Need update address, phone, etc.
+
 
     public static int deleteCustomer(int customerId) throws SQLException {
         String sql = "DELETE FROM customers WHERE Customer_ID = ?";

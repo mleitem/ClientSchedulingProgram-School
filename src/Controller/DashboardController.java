@@ -354,6 +354,11 @@ public class DashboardController implements Initializable {
         customeridcol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         useridcol.setCellValueFactory(new PropertyValueFactory<>("userId"));
 
+        try {
+            LoginController.viewTodayAppointments();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 }

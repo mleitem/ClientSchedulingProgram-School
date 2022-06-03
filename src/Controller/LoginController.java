@@ -44,12 +44,25 @@ public class LoginController implements Initializable {
     private TextField usernameid;
 
     @FXML
+    private Label passwordlabelid;
+
+    @FXML
+    private Label usernamelabelid;
+
+    @FXML
+    private Label loginlabelid;
+
+    @FXML
+    private Label zoneidlabel;
+
+    @FXML
     private Button exitbuttonid;
 
     @FXML
     private Button loginbuttonid;
 
 
+    ResourceBundle rb = ResourceBundle.getBundle("Helper/frBundle", Locale.getDefault());
 
     /** When this event handler is called, the program will exit. */
     @FXML
@@ -63,7 +76,10 @@ public class LoginController implements Initializable {
         ObservableList<Appointment> todayAppointments = AppointmentQuery.viewTodayAppointments();
         ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
 
+        System.out.println(todayAppointments.size());
+
         if (todayAppointments.size() > 0) {
+            System.out.print("Appointments today");
 
             for (int i = 0; i < todayAppointments.size(); ++i) {
                 Appointment appointment = todayAppointments.get(i);
@@ -98,17 +114,14 @@ public class LoginController implements Initializable {
                 noSelectionAlert.setTitle("Upcoming Appointments");
                 noSelectionAlert.setContentText(upcomingAppointments);
                 noSelectionAlert.showAndWait();
-            } else {
+            }
+            if(filteredAppointments.size() == 0 || todayAppointments.size() == 0) {
                 Alert noSelectionAlert = new Alert(Alert.AlertType.INFORMATION);
                 noSelectionAlert.setTitle("Upcoming Appointments");
                 noSelectionAlert.setContentText("No appointments in the next 15 minutes.");
                 noSelectionAlert.showAndWait();
             }
         }
-    }
-
-    public void addToLog(String user, LocalDate date, Timestamp time, String result) {
-
     }
 
 
@@ -130,7 +143,7 @@ public class LoginController implements Initializable {
             result = "Success";
             outputFile.println(user + " | " + result + " | " + formattedDate + " | ");
             outputFile.close();
-            viewTodayAppointments();
+            //viewTodayAppointments();
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
             scene = loader.load();
@@ -142,9 +155,16 @@ public class LoginController implements Initializable {
             outputFile.println(user + " | " + result + " | " + formattedDate + " | ");
             outputFile.close();
             Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
-            noSelectionAlert.setTitle("Error");
-            noSelectionAlert.setContentText("Invalid username or password.");
-            noSelectionAlert.showAndWait();
+            if(Locale.getDefault().getLanguage().equalsIgnoreCase("fr")){
+                noSelectionAlert.setTitle(rb.getString("Error"));
+                noSelectionAlert.setContentText(rb.getString("Invalid"));
+                noSelectionAlert.showAndWait();
+            }
+            else {
+                noSelectionAlert.setTitle("Error");
+                noSelectionAlert.setContentText("Invalid username or password.");
+                noSelectionAlert.showAndWait();
+            }
         }
     }
 
@@ -174,10 +194,20 @@ public class LoginController implements Initializable {
 
         zoneid.setText(displayZone);
 
-        ResourceBundle rb = ResourceBundle.getBundle("translation_fr.properties", Locale.getDefault());
 
-        if(Locale.getDefault().getLanguage().equals("fr")) {
-            System.out.println(rb.getString("Username"));
+
+        if(Locale.getDefault().getLanguage().equalsIgnoreCase("fr")) {
+            System.out.println("French");
+            usernamelabelid.setText(rb.getString("Username"));
+            passwordlabelid.setText(rb.getString("Password"));
+            zoneidlabel.setText(rb.getString("ZoneID"));
+            loginbuttonid.setText(rb.getString("Login"));
+            loginlabelid.setText(rb.getString("Login"));
+            exitbuttonid.setText(rb.getString("Exit"));
+
+        }
+        if(Locale.getDefault().getLanguage().equalsIgnoreCase("en")){
+            System.out.println("English");
         }
 
 

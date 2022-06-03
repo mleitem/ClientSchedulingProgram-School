@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.TimeZone;
@@ -172,6 +173,12 @@ public class LoginController implements Initializable {
         String displayZone = localTZ.getDisplayName();
 
         zoneid.setText(displayZone);
+
+        ResourceBundle rb = ResourceBundle.getBundle("translation_fr.properties", Locale.getDefault());
+
+        if(Locale.getDefault().getLanguage().equals("fr")) {
+            System.out.println(rb.getString("Username"));
+        }
 
 
 

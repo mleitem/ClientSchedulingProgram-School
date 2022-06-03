@@ -21,16 +21,6 @@ public class Main extends Application {
 
     public static void main(String[] args) { launch(args); }
 
-    /**
-     * Creating log file
-     */
-
-    //File name & variables
-    String filename = "login_activity.txt", attemptId, user, date, timestamp, result;
-
-    // Create Scanner
-    //Scanner keyboad = new Scanner(System.in);
-
     @Override
     public void start(Stage stage) throws Exception {
         JDBC.openConnection();

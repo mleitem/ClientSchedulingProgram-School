@@ -91,6 +91,21 @@ public abstract class ReportQuery {
         return types;
     }
 
+    public static ObservableList<String> viewAppointmentLocations() throws SQLException {
+
+        ObservableList<String> locations = FXCollections.observableArrayList();
+
+        String sql = "SELECT DISTINCT Location FROM appointments";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            String appointmentLocation = rs.getString("Location");
+            locations.add(appointmentLocation);
+        }
+
+        return locations;
+    }
+
     public static ObservableList<Appointment> totalAppointmentsByContact(int id) throws SQLException {
 
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
@@ -106,6 +121,29 @@ public abstract class ReportQuery {
             for(int i = 0; i < Inventory.allAppointments.size(); ++i){
                 appointment = Inventory.allAppointments.get(i);
                 if (appointment.getAppointmentId() == appointmentId) {
+                    appointments.add(appointment);
+                }
+            }
+        }
+        return appointments;
+    }
+
+    public static ObservableList<Appointment> totalAppointmentsByLocation(String location) throws SQLException {
+
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+
+        Appointment appointment = null;
+        String sql = "SELECT * FROM appointments WHERE Location = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, location);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int appointmentId = rs.getInt("Appointment_ID");
+
+            for (int i = 0; i < Inventory.allAppointments.size(); ++i) {
+                appointment = Inventory.allAppointments.get(i);
+                if (appointment.getAppointmentId() == appointmentId) {
+                    System.out.println(appointmentId);
                     appointments.add(appointment);
                 }
             }

@@ -94,9 +94,43 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab text="3rd Report">
+            <Tab text="Appointments By Location">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="385.0" prefWidth="593.0">
+                           <children>
+                              <TableView fx:id="locationappointmentstable" layoutX="8.0" layoutY="240.0" prefHeight="226.0" prefWidth="812.0">
+                                 <columns>
+                                    <TableColumn fx:id="appointmentid3" prefWidth="99.0" text="Appoinment ID" />
+                                    <TableColumn fx:id="title3" prefWidth="60.0" text="Title" />
+                                    <TableColumn fx:id="description3" prefWidth="79.0" text="Description" />
+                                    <TableColumn fx:id="location3" prefWidth="81.0" text="Location" />
+                                    <TableColumn fx:id="type3" prefWidth="93.0" text="Type" />
+                                    <TableColumn fx:id="contact3" prefWidth="102.0" text="Contact" />
+                                    <TableColumn fx:id="start3" prefWidth="79.0" text="Start" />
+                                    <TableColumn fx:id="end3" prefWidth="70.0" text="End" />
+                                    <TableColumn fx:id="customerid3" prefWidth="89.0" text="Customer ID" />
+                                    <TableColumn fx:id="userid3" prefWidth="59.0" text="User ID" />
+                                 </columns>
+                              </TableView>
+                              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="255.0" layoutY="43.0" prefHeight="17.0" prefWidth="317.0" text="Please select an appointment location." />
+                              <Button layoutX="387.0" layoutY="198.0" mnemonicParsing="false" onAction="#submitButton3" text="Submit" />
+                              <Button layoutX="389.0" layoutY="493.0" mnemonicParsing="false" text="Home" />
+                              <HBox layoutX="8.0" layoutY="210.0" prefHeight="17.0" prefWidth="151.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="114.0" text="Total Appointments: " />
+                                    <Label fx:id="totalid3" text="Label" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" layoutX="86.0" layoutY="72.0" prefHeight="73.0" prefWidth="657.0" spacing="30.0">
+                                 <children>
+                                    <ComboBox fx:id="locationcomboid" prefWidth="150.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                     </children></AnchorPane>
               </content>
             </Tab>
         </tabs>

@@ -28,13 +28,22 @@ public class ReportsController implements Initializable {
     private TableColumn<Appointment, Integer> appointmentid2;
 
     @FXML
+    private TableColumn<Appointment, Integer> appointmentid3;
+
+    @FXML
     private TableColumn<Appointment, String> contact1;
 
     @FXML
     private TableColumn<Appointment, String> contact2;
 
     @FXML
+    private TableColumn<Appointment, String> contact3;
+
+    @FXML
     private TableView<Appointment> contactappointmentstable;
+
+    @FXML
+    private TableView<Appointment> locationappointmentstable;
 
     @FXML
     private TableColumn<Contact, String> contactemail;
@@ -55,10 +64,16 @@ public class ReportsController implements Initializable {
     private TableColumn<Appointment, Integer> customerid2;
 
     @FXML
+    private TableColumn<Appointment, Integer> customerid3;
+
+    @FXML
     private TableColumn<Appointment, String> description1;
 
     @FXML
     private TableColumn<Appointment, String> description2;
+
+    @FXML
+    private TableColumn<Appointment, String> description3;
 
     @FXML
     private TableColumn<Appointment, Timestamp> end1;
@@ -67,10 +82,16 @@ public class ReportsController implements Initializable {
     private TableColumn<Appointment, Timestamp> end2;
 
     @FXML
+    private TableColumn<Appointment, Timestamp> end3;
+
+    @FXML
     private TableColumn<Appointment, String> location1;
 
     @FXML
     private TableColumn<Appointment, String> location2;
+
+    @FXML
+    private TableColumn<Appointment, String> location3;
 
     @FXML
     private TableView<Appointment> monthappointmentstable;
@@ -82,10 +103,16 @@ public class ReportsController implements Initializable {
     private TableColumn<Appointment, Timestamp> start2;
 
     @FXML
+    private TableColumn<Appointment, Timestamp> start3;
+
+    @FXML
     private TableColumn<Appointment, String> title1;
 
     @FXML
     private TableColumn<Appointment, String> title2;
+
+    @FXML
+    private TableColumn<Appointment, String> title3;
 
     @FXML
     private TableColumn<Appointment, String> type1;
@@ -94,13 +121,22 @@ public class ReportsController implements Initializable {
     private TableColumn<Appointment, String> type2;
 
     @FXML
+    private TableColumn<Appointment, String> type3;
+
+    @FXML
     private TableColumn<Appointment, Integer> userid1;
 
     @FXML
     private TableColumn<Appointment, Integer> userid2;
 
     @FXML
+    private TableColumn<Appointment, Integer> userid3;
+
+    @FXML
     private Label totalid;
+
+    @FXML
+    private Label totalid3;
 
     @FXML
     private Label totalcontactappointments;
@@ -110,6 +146,9 @@ public class ReportsController implements Initializable {
 
     @FXML
     private ComboBox<String> monthcomboid;
+
+    @FXML
+    private ComboBox<String> locationcomboid;
 
     @FXML
     public void submitButton1(ActionEvent event) throws IOException, SQLException {
@@ -125,6 +164,24 @@ public class ReportsController implements Initializable {
         else {
             System.out.println("No Matches");
             totalid.setText("0");
+        }
+
+    }
+
+    @FXML
+    public void submitButton3(ActionEvent event) throws IOException, SQLException {
+        String location = locationcomboid.getValue();
+
+
+        ObservableList<Appointment> locationAppointments = ReportQuery.totalAppointmentsByLocation(location);
+
+        if(locationAppointments.size() > 0) {
+            locationappointmentstable.setItems(locationAppointments);
+            totalid3.setText(String.valueOf(locationAppointments.size()));
+        }
+        else {
+            System.out.println("No Matches");
+            totalid3.setText("0");
         }
 
     }
@@ -210,6 +267,26 @@ public class ReportsController implements Initializable {
         customerid2.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         userid2.setCellValueFactory(new PropertyValueFactory<>("userId"));
         totalcontactappointments.setText(String.valueOf(Inventory.getAllAppointments().size()));
+
+
+        locationappointmentstable.setItems(Inventory.getAllAppointments());
+        appointmentid3.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        title3.setCellValueFactory(new PropertyValueFactory<>("title"));
+        description3.setCellValueFactory(new PropertyValueFactory<>("description"));
+        location3.setCellValueFactory(new PropertyValueFactory<>("location"));
+        contact3.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+        type3.setCellValueFactory(new PropertyValueFactory<>("type"));
+        start3.setCellValueFactory(new PropertyValueFactory<>("start"));
+        end3.setCellValueFactory(new PropertyValueFactory<>("end"));
+        customerid3.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        userid3.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        totalid3.setText(String.valueOf(Inventory.getAllAppointments().size()));
+
+        try {
+            locationcomboid.setItems(ReportQuery.viewAppointmentLocations());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 }

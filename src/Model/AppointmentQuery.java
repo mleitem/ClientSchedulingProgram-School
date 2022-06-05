@@ -10,11 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Date;
+import java.util.TimeZone;
 
 public abstract class AppointmentQuery {
 
@@ -148,27 +146,60 @@ public abstract class AppointmentQuery {
     }
 
     public static ObservableList<LocalTime> viewStartTimes() {
-
+        ObservableList<LocalTime> localZDTTimes = FXCollections.observableArrayList();
         ObservableList<LocalTime> startTimes = FXCollections.observableArrayList();
         LocalTime start = LocalTime.of(8,0);
         LocalTime end = LocalTime.of(19, 00);
+
+
+
         while(start.isBefore(end.plusSeconds(1))) {
             startTimes.add(start);
             start = start.plusMinutes(15);
         }
-        return startTimes;
+
+        for(int i =0 ; i < startTimes.size(); i++) {
+
+            LocalTime newStart = startTimes.get(i);
+            LocalDate todayDate = LocalDate.now();
+            ZoneId eastCoastZoneId = ZoneId.of("America/New_York");
+            ZonedDateTime eastCoastZDT = ZonedDateTime.of(todayDate, newStart, eastCoastZoneId);
+
+            ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
+
+            ZonedDateTime eastCoasttoLocalZDT = eastCoastZDT.withZoneSameInstant(localZoneId);
+            LocalTime localAppointment = eastCoasttoLocalZDT.toLocalTime();
+            localZDTTimes.add(localAppointment);
+        }
+        return localZDTTimes;
     }
 
     public static ObservableList<LocalTime> viewEndTimes() {
 
+        ObservableList<LocalTime> localZDTTimes = FXCollections.observableArrayList();
         ObservableList<LocalTime> endTimes = FXCollections.observableArrayList();
         LocalTime start = LocalTime.of(9,0);
         LocalTime end = LocalTime.of(20, 00);
+
         while(start.isBefore(end.plusSeconds(1))) {
             endTimes.add(start);
             start = start.plusMinutes(15);
         }
-        return endTimes;
+
+        for(int i =0 ; i < endTimes.size(); i++) {
+
+            LocalTime newEnd = endTimes.get(i);
+            LocalDate todayDate = LocalDate.now();
+            ZoneId eastCoastZoneId = ZoneId.of("America/New_York");
+            ZonedDateTime eastCoastZDT = ZonedDateTime.of(todayDate, newEnd, eastCoastZoneId);
+
+            ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
+
+            ZonedDateTime eastCoasttoLocalZDT = eastCoastZDT.withZoneSameInstant(localZoneId);
+            LocalTime localAppointment = eastCoasttoLocalZDT.toLocalTime();
+            localZDTTimes.add(localAppointment);
+        }
+        return localZDTTimes;
     }
 
     public static ObservableList<Integer> viewAllUsers() throws SQLException {

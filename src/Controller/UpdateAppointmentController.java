@@ -22,8 +22,10 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class UpdateAppointmentController implements Initializable {
 
@@ -75,8 +77,12 @@ public class UpdateAppointmentController implements Initializable {
         typeid.setText(appointment.getType());
         locationid.setText(appointment.getLocation());
         contactid.setValue(appointment.getContactId());
-        //startdateid.setValue(appointment.getStart());
-        //enddateid.setValue(appointment.getEnd());
+        Timestamp start = appointment.getStart();
+        ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
+        LocalDate startDate = start.toInstant().atZone(localZoneId).toLocalDate();
+        LocalTime startTime = start.toInstant().atZone(localZoneId).toLocalTime();
+        starttimeid.setValue(startTime);
+        startdateid.setValue(startDate);
         customerid.setValue(appointment.getCustomerId());
         userid.setValue(appointment.getUserId());
 
@@ -118,6 +124,16 @@ public class UpdateAppointmentController implements Initializable {
             LocalDate start = end;
             startdateid.setValue(start);
         }
+    }
+
+    @FXML
+    public void back(ActionEvent event) throws IOException {
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Dashboard.fxml"));
+        scene = loader.load();
+        Scene root = new Scene(scene);
+        stage.setScene(root);
+        stage.show();
     }
 
     public void saveButton(ActionEvent event) throws SQLException, IOException {

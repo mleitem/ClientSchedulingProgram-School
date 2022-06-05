@@ -143,7 +143,7 @@ public class LoginController implements Initializable {
             result = "Success";
             outputFile.println(user + " | " + result + " | " + formattedDate + " | ");
             outputFile.close();
-            //viewTodayAppointments();
+            viewTodayAppointments();
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
             scene = loader.load();

@@ -75,6 +75,16 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
+    @FXML
+    public void back(ActionEvent event) throws IOException {
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboard.fxml"));
+        scene = loader.load();
+        Scene root = new Scene(scene);
+        stage.setScene(root);
+        stage.show();
+    }
+
     public void startSelect(ActionEvent event) {
 
         if(endtimeid.getSelectionModel().getSelectedItem() != null) {
@@ -149,6 +159,7 @@ public class AddAppointmentController implements Initializable {
             stage.setScene(root);
             stage.show();
         }
+
 
 
 

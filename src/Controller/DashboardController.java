@@ -161,7 +161,7 @@ public class DashboardController implements Initializable {
 
                 Alert deleteConfirmation = new Alert(Alert.AlertType.INFORMATION);
                 deleteConfirmation.setTitle("Confirmation");
-                deleteConfirmation.setContentText("Appointment ID: " + id + "   /   " + "Type: " + type + " deleted.");
+                deleteConfirmation.setContentText("Appointment ID: " + id + "    |    " + "Type: " + type + " deleted.");
                 deleteConfirmation.showAndWait();
 
                 if (allbuttonid.isSelected()) {
@@ -177,54 +177,6 @@ public class DashboardController implements Initializable {
 
         }
     }
-
-    /*public static void viewTodayAppointments() throws SQLException {
-        ObservableList<Appointment> todayAppointments = AppointmentQuery.viewTodayAppointments();
-        ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
-
-        if (todayAppointments.size() > 0) {
-
-            for (int i = 0; i < todayAppointments.size(); ++i) {
-                Appointment appointment = todayAppointments.get(i);
-                Timestamp start = appointment.getStart();
-                LocalDateTime now = LocalDateTime.now();
-                LocalDateTime later = now.plusMinutes(15);
-                LocalDateTime ldtStart = start.toLocalDateTime();
-
-                if (ldtStart.isBefore(later) && ldtStart.isAfter(now)) {
-                    filteredAppointments.add(appointment);
-                }
-            }
-
-        }
-
-        if (filteredAppointments.size() > 0) {
-
-            String appointmentsList = null;
-            for (int i = 0; i < filteredAppointments.size(); i++) {
-                Appointment appointment = filteredAppointments.get(i);
-                int id = appointment.getAppointmentId();
-                Timestamp start = appointment.getStart();
-
-                String nextAppointment = "Appointment ID: " + id + " - Start Time: " + start + "/n";
-                appointmentsList.concat(nextAppointment);
-
-            }
-            Alert noSelectionAlert = new Alert(Alert.AlertType.INFORMATION);
-            noSelectionAlert.setTitle("Upcoming Appointments");
-            noSelectionAlert.setContentText("Appointments Starting in the Next 15 Minutes: /n" + appointmentsList);
-            noSelectionAlert.showAndWait();
-        }
-        else {
-            Alert noSelectionAlert = new Alert(Alert.AlertType.INFORMATION);
-            noSelectionAlert.setTitle("Upcoming Appointments");
-            noSelectionAlert.setContentText("No appointments in the next 15 minutes.");
-            noSelectionAlert.showAndWait();
-        }
-    }*/
-
-
-
 
     @FXML
     public void addCustomer(ActionEvent event) throws IOException {
@@ -312,10 +264,6 @@ public class DashboardController implements Initializable {
         }
 
 
-
-
-        //generateAppointmentsTable();
-
         customertableview.setItems(Inventory.getAllCustomers());
         customeridcol1.setCellValueFactory(new PropertyValueFactory<>("id"));
         namecol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -335,12 +283,6 @@ public class DashboardController implements Initializable {
         endcol.setCellValueFactory(new PropertyValueFactory<>("end"));
         customeridcol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         useridcol.setCellValueFactory(new PropertyValueFactory<>("userId"));
-
-        try {
-            LoginController.viewTodayAppointments();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
 
     }
 }

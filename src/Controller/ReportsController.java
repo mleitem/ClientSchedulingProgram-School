@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,6 +21,9 @@ import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
 public class ReportsController implements Initializable {
+
+    Stage stage;
+    Parent scene;
 
     @FXML
     private TableColumn<Appointment, Integer> appointmentid1;
@@ -184,6 +188,16 @@ public class ReportsController implements Initializable {
             totalid3.setText("0");
         }
 
+    }
+
+    @FXML
+    public void back(ActionEvent event) throws IOException {
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboard.fxml"));
+        scene = loader.load();
+        Scene root = new Scene(scene);
+        stage.setScene(root);
+        stage.show();
     }
 
 

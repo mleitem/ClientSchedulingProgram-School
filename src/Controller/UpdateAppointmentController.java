@@ -16,10 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
@@ -147,12 +144,21 @@ public class UpdateAppointmentController implements Initializable {
         int userId = userid.getValue();
         int contactId = contactid.getValue();
 
-        //Combine date/time entries to get one entry for the constuctor
         LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
-        Timestamp sqlDateStart = Timestamp.valueOf(startDateTime);
-
         LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
-        Timestamp sqlDateEnd = Timestamp.valueOf(endDateTime);
+        ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
+
+        ZonedDateTime startLocalZDT = ZonedDateTime.of(startDateTime, localZoneId);
+        ZonedDateTime endLocalZDT = ZonedDateTime.of(endDateTime, localZoneId);
+        Instant startLocalToUTC = startLocalZDT.toInstant();
+        Instant endLocalToUTC = endLocalZDT.toInstant();
+
+        Timestamp sqlDateStart = Timestamp.from(startLocalToUTC);
+        Timestamp sqlDateEnd = Timestamp.from(endLocalToUTC);
+
+        ZoneId eastCoastZoneId = ZoneId.of("America/New_York");
+        ZonedDateTime startEastCoastZDT = startLocalZDT.withZoneSameInstant(eastCoastZoneId);
+        LocalTime eastCoastStartTime = startEastCoastZDT.toLocalTime();
 
         ObservableList<Appointment> customerAppointments = AppointmentQuery.viewConflictingAppointments(sqlDateStart);
         if(customerAppointments.size() > 0) {
@@ -162,6 +168,12 @@ public class UpdateAppointmentController implements Initializable {
             noSelectionAlert.showAndWait();
         }
 
+        if(eastCoastStartTime.isBefore(LocalTime.parse("07:59:00")) || eastCoastStartTime.isAfter(LocalTime.parse("20:00:00"))){
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
+            noSelectionAlert.setTitle("Error");
+            noSelectionAlert.setContentText("Please choose an appointment time within business hours: 8:00am-10:00pm, Mon-Sun.");
+            noSelectionAlert.showAndWait();
+        }
 
         else {
             AppointmentQuery.updateAppointment(id, title, description, location, type, sqlDateStart, sqlDateEnd, customerId, userId, contactId);

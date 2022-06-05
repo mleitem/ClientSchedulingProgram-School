@@ -148,7 +148,7 @@ public abstract class AppointmentQuery {
     public static ObservableList<LocalTime> viewStartTimes() {
         ObservableList<LocalTime> localZDTTimes = FXCollections.observableArrayList();
         ObservableList<LocalTime> startTimes = FXCollections.observableArrayList();
-        LocalTime start = LocalTime.of(8,0);
+        LocalTime start = LocalTime.of(8,00);
         LocalTime end = LocalTime.of(19, 00);
 
 
@@ -178,7 +178,7 @@ public abstract class AppointmentQuery {
 
         ObservableList<LocalTime> localZDTTimes = FXCollections.observableArrayList();
         ObservableList<LocalTime> endTimes = FXCollections.observableArrayList();
-        LocalTime start = LocalTime.of(9,0);
+        LocalTime start = LocalTime.of(9,00);
         LocalTime end = LocalTime.of(20, 00);
 
         while(start.isBefore(end.plusSeconds(1))) {

@@ -137,12 +137,12 @@ public class AddAppointmentController implements Initializable {
         Instant startLocalToUTC = startLocalZDT.toInstant();
         Instant endLocalToUTC = endLocalZDT.toInstant();
 
-        System.out.println("Local Start Date/Time: " + startLocalZDT + " - Local End Date/Time: " + endLocalZDT);
-        System.out.println("UTC Start Date/Time: " + startLocalToUTC + " - UTC End Date/Time: " + endLocalToUTC);
-
-
         Timestamp sqlDateEnd = Timestamp.from(endLocalToUTC);
         Timestamp sqlDateStart = Timestamp.from(startLocalToUTC);
+
+        ZoneId eastCoastZoneId = ZoneId.of("America/New_York");
+        ZonedDateTime startEastCoastZDT = startLocalZDT.withZoneSameInstant(eastCoastZoneId);
+        LocalTime eastCoastStartTime = startEastCoastZDT.toLocalTime();
 
 
         ObservableList<Appointment> customerAppointments = AppointmentQuery.viewConflictingAppointments(sqlDateStart);
@@ -150,6 +150,13 @@ public class AddAppointmentController implements Initializable {
             Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
             noSelectionAlert.setTitle("Error");
             noSelectionAlert.setContentText("There is already an appointment scheduled for that date/time. Please choose another date/time.");
+            noSelectionAlert.showAndWait();
+        }
+
+        if(eastCoastStartTime.isBefore(LocalTime.parse("07:59:00")) || eastCoastStartTime.isAfter(LocalTime.parse("20:00:00"))){
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
+            noSelectionAlert.setTitle("Error");
+            noSelectionAlert.setContentText("Please choose an appointment time within business hours: 8:00am-10:00pm, Mon-Sun.");
             noSelectionAlert.showAndWait();
         }
 

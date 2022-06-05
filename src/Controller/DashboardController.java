@@ -27,8 +27,6 @@ public class DashboardController implements Initializable {
 
     Stage stage;
     Parent scene;
-    private ObservableList<Appointment> appointmentInventory = FXCollections.observableArrayList();
-    private ObservableList<Customer> customerInventory = FXCollections.observableArrayList();
 
     @FXML
     private TableColumn<Customer, String> addresscol;
@@ -97,17 +95,13 @@ public class DashboardController implements Initializable {
     private TableColumn<Appointment, Integer> useridcol;
 
 
-    /**
-     * This is the listener for the radio buttons
-     **/
+    /** This is the listener for the radio buttons - filters appointments down by week or month. **/
     public void radioSelect(ActionEvent event) throws SQLException {
         if (monthbuttonid.isSelected()) {
-            //AppointmentQuery.viewThisMonthAppointments();
             ObservableList<Appointment> monthAppointments = AppointmentQuery.viewThisMonthAppointments();
             appointmentstableview.setItems(monthAppointments);
         }
         if (weekbuttonid.isSelected()) {
-            //AppointmentQuery.viewThisWeekAppointments();
             ObservableList<Appointment> weekAppointments = AppointmentQuery.viewThisWeekAppointments();
             appointmentstableview.setItems(weekAppointments);
         }
@@ -116,6 +110,7 @@ public class DashboardController implements Initializable {
         }
     }
 
+    /** This event handler takes the user to the "Add Appointment" page. */
     @FXML
     public void addAppointment(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -126,6 +121,7 @@ public class DashboardController implements Initializable {
         stage.show();
     }
 
+    /** This event handler takes the user to the "Update Appointment" page to update the appointment selected from the table. */
     @FXML
     public void updateAppointment(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -140,6 +136,7 @@ public class DashboardController implements Initializable {
         controller.setAppointment(appointment);
     }
 
+    /** This event handler deletes the selected appointment, after confirmation from the user. */
     @FXML
     public void deleteAppointment(ActionEvent event) throws SQLException {
         if (appointmentstableview.getSelectionModel().isEmpty()) {
@@ -178,6 +175,7 @@ public class DashboardController implements Initializable {
         }
     }
 
+    /** This event handler takes the user to the "Add Customer" page. */
     @FXML
     public void addCustomer(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -188,6 +186,7 @@ public class DashboardController implements Initializable {
         stage.show();
     }
 
+    /** This event handler takes the user to the "Update Customer" page to update the customer selected from the table.*/
     @FXML
     public void updateCustomer(ActionEvent event) throws IOException, SQLException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -202,6 +201,8 @@ public class DashboardController implements Initializable {
         controller.setCustomer(customer);
     }
 
+    /** This event handler deletes the customer's appointments and then the customer, after an initial confirmation from the user. */
+    @FXML
     public void deleteCustomer(ActionEvent event) throws SQLException, IOException {
 
         if (customertableview.getSelectionModel().isEmpty()) {
@@ -238,6 +239,7 @@ public class DashboardController implements Initializable {
         stage.show();
     }
 
+    /** This event handler takes the user to the "Reports" page. */
     @FXML
     public void viewReports(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -248,6 +250,7 @@ public class DashboardController implements Initializable {
         stage.show();
     }
 
+    /** This initializes the page and sets the content of the tables. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

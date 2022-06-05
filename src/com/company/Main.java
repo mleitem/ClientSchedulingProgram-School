@@ -17,8 +17,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Scanner;
 
+/** This creates an appointment scheduling application */
 public class Main extends Application {
 
+    /** The main method is called first when the program is run - it opens the database and directs the user to the login page */
     public static void main(String[] args) { launch(args); }
 
     @Override

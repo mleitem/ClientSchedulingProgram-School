@@ -72,14 +72,12 @@ public class LoginController implements Initializable {
         closeStage.close();
     }
 
+    /** This method alerts the user at the time of login if there are any appointments in the next 15 minutes of their local time. */
     public static void viewTodayAppointments() throws SQLException {
         ObservableList<Appointment> todayAppointments = AppointmentQuery.viewTodayAppointments();
         ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
 
-        System.out.println(todayAppointments.size());
-
         if (todayAppointments.size() > 0) {
-            System.out.print("Appointments today");
 
             for (int i = 0; i < todayAppointments.size(); ++i) {
                 Appointment appointment = todayAppointments.get(i);
@@ -106,8 +104,6 @@ public class LoginController implements Initializable {
 
                     upcomingAppointments = upcomingAppointments.concat(addedAppointment);
 
-                    System.out.println(upcomingAppointments);
-
 
                 }
                 Alert noSelectionAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -125,6 +121,8 @@ public class LoginController implements Initializable {
     }
 
 
+    /** This event handler checks the user's credentials against the database and directs them to the dashboard if
+     * the credentials are true. In addition, the handler also records every login attempt to "Login_Activity.txt". */
     @FXML
     public void loginButton(ActionEvent event) throws IOException, SQLException {
         String username = usernameid.getText();
@@ -168,6 +166,7 @@ public class LoginController implements Initializable {
         }
     }
 
+    /** This method checks the user's login credentials against those in the database. */
     public boolean login(String checkUsername, String checkPassword) throws SQLException {
         String sql = "SELECT * FROM users WHERE User_Name = ? AND Password = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -176,16 +175,15 @@ public class LoginController implements Initializable {
         ResultSet rs = ps.executeQuery();
         boolean login;
         if (rs.next()) {
-            System.out.println("Success!");
             login = true;
         }
         else{
-            System.out.println("Try again!");
             login = false;
         }
         return login;
     }
 
+    /** This initializes the page, identifies the user's time zone, and identifies the user's computer's language. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -197,7 +195,6 @@ public class LoginController implements Initializable {
 
 
         if(Locale.getDefault().getLanguage().equalsIgnoreCase("fr")) {
-            System.out.println("French");
             usernamelabelid.setText(rb.getString("Username"));
             passwordlabelid.setText(rb.getString("Password"));
             zoneidlabel.setText(rb.getString("ZoneID"));
@@ -206,13 +203,6 @@ public class LoginController implements Initializable {
             exitbuttonid.setText(rb.getString("Exit"));
 
         }
-        if(Locale.getDefault().getLanguage().equalsIgnoreCase("en")){
-            System.out.println("English");
-        }
-
-
-
-
 
     }
 }

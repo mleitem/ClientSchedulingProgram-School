@@ -12,50 +12,6 @@ import java.time.LocalDateTime;
 
 public abstract class ReportQuery {
 
-    public static ObservableList<Appointment> totalAppointmentsByType(String type) throws SQLException {
-
-        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-
-        Appointment appointment = null;
-        String sql = "SELECT * FROM appointments WHERE Type = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, type);
-        ResultSet rs = ps.executeQuery();
-        while(rs.next()) {
-            int appointmentId = rs.getInt("Appointment_ID");
-
-            for(int i = 0; i < Inventory.allAppointments.size(); ++i){
-                appointment = Inventory.allAppointments.get(i);
-                if (appointment.getAppointmentId() == appointmentId) {
-                    appointments.add(appointment);
-                }
-            }
-        }
-        return appointments;
-    }
-
-    public static ObservableList<Appointment> totalAppointmentsByMonth(String month) throws SQLException {
-
-        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-
-        Appointment appointment = null;
-        String sql = "SELECT * FROM appointments WHERE YEAR(Start) = YEAR(now()) AND MONTHNAME(Start) = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, month);
-        ResultSet rs = ps.executeQuery();
-        while(rs.next()) {
-            int appointmentId = rs.getInt("Appointment_ID");
-
-            for(int i = 0; i < Inventory.allAppointments.size(); ++i){
-                appointment = Inventory.allAppointments.get(i);
-                if (appointment.getAppointmentId() == appointmentId) {
-                    appointments.add(appointment);
-                }
-            }
-        }
-        return appointments;
-    }
-
     public static void viewAllContacts() throws SQLException {
 
         Inventory.getAllContacts().clear();
@@ -85,7 +41,6 @@ public abstract class ReportQuery {
         while (rs.next()) {
             String appointmentType = rs.getString("Type");
             types.add(appointmentType);
-            System.out.println(appointmentType);
         }
 
         return types;
@@ -173,38 +128,5 @@ public abstract class ReportQuery {
         }
         return appointments;
     }
-
-    /*public static ObservableList<Appointment> totalByType() throws SQLException {
-
-        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-
-        Appointment appointment = null;
-        String sql = "SELECT Type, Start FROM appointments";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while(rs.next()) {
-            String type = rs.getString("Type");
-            Timestamp start = rs.getTimestamp("Start");
-
-            LocalDateTime ldt = start.toLocalDateTime();
-            String appointmentMonth = ldt.getMonth().toString();
-            int appointmentYear = ldt.getYear();
-            int count = 1;
-
-            for(int i = 0; i < Inventory.getAllAppointments().size(); i++) {
-                appointment = Inventory.allAppointments.get(i);
-                LocalDateTime appointmentStart = (appointment.getStart()).toLocalDateTime();
-                String compMonth = appointmentStart.getMonth().toString();
-                int compYear = appointmentStart.getYear();
-                if(appointment.getType().equalsIgnoreCase(type) && compMonth.equals(appointmentMonth) && compYear == appointmentYear) {
-                    count = count + 1;
-                }
-            }
-            Appointment addAppointment = new Appointment(type, appointmentMonth, appointmentYear, count);
-            appointments.add(addAppointment);
-        }
-        return appointments;
-    }*/
-
 
 }

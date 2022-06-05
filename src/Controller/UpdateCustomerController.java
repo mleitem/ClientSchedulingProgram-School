@@ -45,29 +45,9 @@ public class UpdateCustomerController implements Initializable {
     @FXML
     private ComboBox<String> stateid;
 
-    /*public void regionFilter(ActionEvent event) throws SQLException {
-        if(countryid.getValue() != null){
-            String id = countryid.getValue();
-            if(id.contains("1")){
-                ObservableList<String> usRegions = CustomerQuery.viewUSRegions();
-                stateid.setItems(usRegions);
-                stateid.setValue("1: Alabama");
-            }
-            if(id.contains("2")){
-                ObservableList<String> ukRegions = CustomerQuery.viewUKRegions();
-                stateid.setItems(ukRegions);
-                stateid.setValue("101: England");
-            }
-            if(id.contains("3")){
-                ObservableList<String> canadaRegions = CustomerQuery.viewCanadaRegions();
-                stateid.setItems(canadaRegions);
-                stateid.setValue("60: Northwest Territories");
-            }
-
-        }
-
-    }*/
-
+    /** This method populates the form with the information from the customer selected from the dashboard.
+     * @param customer is the customer to be modified.
+     */
     public void setCustomer(Customer customer) throws SQLException {
 
         customerid.setText(String.valueOf(customer.getId()));
@@ -80,7 +60,6 @@ public class UpdateCustomerController implements Initializable {
         String customerLevel = firstLevel.get(0);
         stateid.setValue(customerLevel);
 
-        //PICK UP HERE! Isolated country ID, need to do the same for div ID
         ObservableList<String> countries = (CustomerQuery.getCountry(customer.getDivId()));
         String countryId = countries.get(0);
         if(countryId.contains("1")){
@@ -98,9 +77,9 @@ public class UpdateCustomerController implements Initializable {
         String id = String.valueOf(countryId);
         countryid.setValue(id);
 
-
     }
 
+    /** This event handler filters down the first-level divisions based on the user's country selection. */
     public void regionFilter(ActionEvent event) throws SQLException {
 
             countryid.setOnAction(event1 -> {
@@ -139,9 +118,8 @@ public class UpdateCustomerController implements Initializable {
 
             });
 
-
             }
-
+    /** This event handler saves the modified customer. */
     public void saveButton(ActionEvent event) throws SQLException, IOException {
         int id = Integer.parseInt(customerid.getText());
         String name = nameid.getText();
@@ -162,6 +140,7 @@ public class UpdateCustomerController implements Initializable {
         stage.show();
     }
 
+    /** This event handler takes the user back to the dashboard page. */
     @FXML
     public void back(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -172,6 +151,7 @@ public class UpdateCustomerController implements Initializable {
         stage.show();
     }
 
+    /** This initializes the page and populates the combo box holding countries. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

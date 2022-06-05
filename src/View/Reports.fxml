@@ -83,7 +83,7 @@
                           </columns>
                         </TableView>
                         <Button layoutX="387.0" layoutY="276.0" mnemonicParsing="false" onAction="#submitButton2" text="Submit" />
-                        <Button layoutX="390.0" layoutY="531.0" mnemonicParsing="false" text="Home" />
+                        <Button layoutX="390.0" layoutY="531.0" mnemonicParsing="false" onAction="#back" text="Back" />
                         <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="301.0" prefHeight="16.0" prefWidth="200.0" spacing="5.0">
                            <children>
                               <Label text="Total Appointments:" />
@@ -116,7 +116,6 @@
                               </TableView>
                               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="255.0" layoutY="43.0" prefHeight="17.0" prefWidth="317.0" text="Please select an appointment location." />
                               <Button layoutX="387.0" layoutY="198.0" mnemonicParsing="false" onAction="#submitButton3" text="Submit" />
-                              <Button layoutX="389.0" layoutY="493.0" mnemonicParsing="false" text="Home" />
                               <HBox layoutX="8.0" layoutY="210.0" prefHeight="17.0" prefWidth="151.0">
                                  <children>
                                     <Label prefHeight="17.0" prefWidth="114.0" text="Total Appointments: " />
@@ -130,6 +129,7 @@
                               </HBox>
                            </children>
                         </AnchorPane>
+                        <Button layoutX="393.0" layoutY="499.0" mnemonicParsing="false" onAction="#back" text="Back" />
                      </children></AnchorPane>
               </content>
             </Tab>

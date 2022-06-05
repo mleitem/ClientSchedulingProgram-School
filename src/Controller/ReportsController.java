@@ -154,6 +154,8 @@ public class ReportsController implements Initializable {
     @FXML
     private ComboBox<String> locationcomboid;
 
+    /** This event handler takes the user entry to filter down the appointments to those of the same month and type
+     * as the choices of the user. */
     @FXML
     public void submitButton1(ActionEvent event) throws IOException, SQLException {
         String type = typecomboid.getValue();
@@ -166,12 +168,40 @@ public class ReportsController implements Initializable {
             totalid.setText(String.valueOf(monthTypeAppointments.size()));
         }
         else {
-            System.out.println("No Matches");
-            totalid.setText("0");
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
+            noSelectionAlert.setTitle("Error");
+            noSelectionAlert.setContentText("There are no matches for your search. Please try again.");
+            noSelectionAlert.showAndWait();
+            monthappointmentstable.setItems(Inventory.getAllAppointments());
+            totalid.setText(String.valueOf(Inventory.getAllAppointments().size()));
         }
 
     }
 
+    /** This event handler filters appointments down to show only the appointments of the contact the user selects. */
+    @FXML
+    public void submitButton2(ActionEvent event) throws IOException, SQLException {
+        Contact contact = contactstable.getSelectionModel().getSelectedItem();
+
+        int contactId = contact.getContactId();
+        ObservableList<Appointment> contactAppointments = ReportQuery.totalAppointmentsByContact(contactId);
+        if(contactAppointments.size() > 0) {
+            contactappointmentstable.setItems(contactAppointments);
+            totalcontactappointments.setText(String.valueOf(contactAppointments.size()));
+        }
+        else {
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
+            noSelectionAlert.setTitle("Error");
+            noSelectionAlert.setContentText("There are no matches for your search. Please try again.");
+            noSelectionAlert.showAndWait();
+            contactappointmentstable.setItems(Inventory.getAllAppointments());
+            totalcontactappointments.setText(String.valueOf(Inventory.getAllAppointments().size()));
+        }
+
+    }
+
+
+    /** This event handler filters appointments down to show those that have locations matching the location the user chose. */
     @FXML
     public void submitButton3(ActionEvent event) throws IOException, SQLException {
         String location = locationcomboid.getValue();
@@ -184,12 +214,17 @@ public class ReportsController implements Initializable {
             totalid3.setText(String.valueOf(locationAppointments.size()));
         }
         else {
-            System.out.println("No Matches");
-            totalid3.setText("0");
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
+            noSelectionAlert.setTitle("Error");
+            noSelectionAlert.setContentText("There are no matches for your search. Please try again.");
+            noSelectionAlert.showAndWait();
+            locationappointmentstable.setItems(Inventory.getAllAppointments());
+            totalid3.setText(String.valueOf(Inventory.getAllAppointments().size()));
         }
 
     }
 
+    /** This event handler takes the user back to the dashboard page. */
     @FXML
     public void back(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -200,24 +235,7 @@ public class ReportsController implements Initializable {
         stage.show();
     }
 
-
-    @FXML
-    public void submitButton2(ActionEvent event) throws IOException, SQLException {
-        Contact contact = contactstable.getSelectionModel().getSelectedItem();
-
-        int contactId = contact.getContactId();
-        ObservableList<Appointment> contactAppointments = ReportQuery.totalAppointmentsByContact(contactId);
-        if(contactAppointments.size() > 0) {
-            contactappointmentstable.setItems(contactAppointments);
-            totalcontactappointments.setText(String.valueOf(contactAppointments.size()));
-        }
-        else {
-            System.out.println("No matches");
-        }
-
-
-    }
-
+    /** This initializes the page and populates all of the tables/combo boxes. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

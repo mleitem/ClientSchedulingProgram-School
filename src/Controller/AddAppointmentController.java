@@ -65,6 +65,8 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private ComboBox<Integer> userid;
 
+
+    /** This event handler automatically selects an end time (one hour after the start time) as soon as the start time is not null */
     public void endSelect(ActionEvent event) {
 
         if(starttimeid.getSelectionModel().getSelectedItem() != null) {
@@ -75,6 +77,7 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
+    /** This event handler takes the user back to the dashboard page. */
     @FXML
     public void back(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -85,6 +88,7 @@ public class AddAppointmentController implements Initializable {
         stage.show();
     }
 
+    /** This event handler automatically selects a start time (one hour before the end time) as soon as the end time is not null */
     public void startSelect(ActionEvent event) {
 
         if(endtimeid.getSelectionModel().getSelectedItem() != null) {
@@ -94,9 +98,9 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
+    /** This event handler automatically selects an end date (same date as start) as soon as the start date is not null */
     public void endDate(ActionEvent event) {
         if(startdateid.getValue() != null){
-            //Date start = startdateid.getValue();
             LocalDate start = startdateid.getValue();
             LocalDate end = start;
             enddateid.setValue(end);
@@ -105,6 +109,7 @@ public class AddAppointmentController implements Initializable {
 
     }
 
+    /** This event handler automatically selects a start date (same date as start) as soon as the end date is not null */
     public void startDate(ActionEvent event){
         if(enddateid.getValue() != null) {
             LocalDate end = enddateid.getValue();
@@ -113,6 +118,8 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
+    /** This event handler gets the data entered by the user and creates a new appointment as long as the start time is within
+     * business hours and there are no appointments scheduled to start at the same time. */
     public void submitAppointment(ActionEvent event) throws SQLException, IOException {
 
         String title = titleid.getText();
@@ -127,7 +134,7 @@ public class AddAppointmentController implements Initializable {
         int userId = userid.getValue();
         int contactId = contactid.getValue();
 
-        //Combine date/time entries to get one entry for the constuctor
+        // Create local ZonedDateTime for start/end
         LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
         LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
         ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
@@ -145,6 +152,8 @@ public class AddAppointmentController implements Initializable {
         LocalTime eastCoastStartTime = startEastCoastZDT.toLocalTime();
 
 
+        // Create an observable list of all appointments that start at the same date/time the user requested.
+        // If the list contains any appointments, an error message is triggered.
         ObservableList<Appointment> customerAppointments = AppointmentQuery.viewConflictingAppointments(sqlDateStart);
         if(customerAppointments.size() > 0) {
             Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
@@ -153,6 +162,7 @@ public class AddAppointmentController implements Initializable {
             noSelectionAlert.showAndWait();
         }
 
+        // Compare the converted start time to the business hours. If there is a conflict, an error message is triggered.
         if(eastCoastStartTime.isBefore(LocalTime.parse("07:59:00")) || eastCoastStartTime.isAfter(LocalTime.parse("20:00:00"))){
             Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
             noSelectionAlert.setTitle("Error");
@@ -169,13 +179,9 @@ public class AddAppointmentController implements Initializable {
             stage.setScene(root);
             stage.show();
         }
-
-
-
-
-
     }
 
+    /** This initializes the page - AppointmentQuery queries are called to populate observable lists for the combo boxes. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

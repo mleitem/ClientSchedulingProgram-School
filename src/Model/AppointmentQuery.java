@@ -32,12 +32,6 @@ public abstract class AppointmentQuery {
             int customerId1 = rs.getInt("Customer_ID");
             int userId = rs.getInt("User_ID");
             int contactId = rs.getInt("Contact_ID");
-            /*System.out.print(customerId + " | ");
-            System.out.print(customerName + " | ");
-            System.out.print(address + " | ");
-            System.out.print(postalCode + " | ");
-            System.out.print(phone + " | ");
-            System.out.print(divId + "\n");*/
             Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId1, userId, contactId);
             Inventory.addAppointment(appointment);
         }

@@ -63,6 +63,9 @@ public class UpdateAppointmentController implements Initializable {
     Parent scene;
 
 
+    /** This method populates the form with information from the appointment selected from the dashboard.
+     * @param appointment the appointment to be modified.
+     */
     public void setAppointment(Appointment appointment){
 
         appointmentid.setText(String.valueOf(appointment.getAppointmentId()));
@@ -82,8 +85,8 @@ public class UpdateAppointmentController implements Initializable {
 
     }
 
+    /** This event handler automatically selects an end time (one hour after the start time) as soon as the start time is not null */
     public void endSelect(ActionEvent event) {
-
         if(starttimeid.getSelectionModel().getSelectedItem() != null) {
             LocalTime start = starttimeid.getSelectionModel().getSelectedItem();
             LocalTime end = start.plusHours(1);
@@ -92,8 +95,8 @@ public class UpdateAppointmentController implements Initializable {
         }
     }
 
+    /** This event handler automatically selects a start time (one hour before the end time) as soon as the end time is not null */
     public void startSelect(ActionEvent event) {
-
         if(endtimeid.getSelectionModel().getSelectedItem() != null) {
             LocalTime end = endtimeid.getSelectionModel().getSelectedItem();
             LocalTime start = end.minusHours(1);
@@ -101,6 +104,7 @@ public class UpdateAppointmentController implements Initializable {
         }
     }
 
+    /** This event handler automatically selects an end date (same date as start) as soon as the start date is not null */
     public void endDate(ActionEvent event) {
         if(startdateid.getValue() != null){
             LocalDate start = startdateid.getValue();
@@ -112,6 +116,7 @@ public class UpdateAppointmentController implements Initializable {
 
     }
 
+    /** This event handler automatically selects a start date (same date as start) as soon as the end date is not null */
     public void startDate(ActionEvent event){
         if(enddateid.getValue() != null) {
             LocalDate end = enddateid.getValue();
@@ -120,6 +125,7 @@ public class UpdateAppointmentController implements Initializable {
         }
     }
 
+    /** This event handler takes the user back to the dashboard page. */
     @FXML
     public void back(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -130,6 +136,7 @@ public class UpdateAppointmentController implements Initializable {
         stage.show();
     }
 
+    /** This event handler saves the modified appointment, after checking there are no conflicts with office hours or other appointments. */
     public void saveButton(ActionEvent event) throws SQLException, IOException {
         int id = Integer.parseInt(appointmentid.getText());
         String title = titleid.getText();
@@ -186,6 +193,8 @@ public class UpdateAppointmentController implements Initializable {
             stage.show();
         }
     }
+
+    /** This initializes the page and populates the combo boxes. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

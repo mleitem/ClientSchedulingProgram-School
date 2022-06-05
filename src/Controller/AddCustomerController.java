@@ -33,9 +33,6 @@ public class AddCustomerController implements Initializable{
     private ComboBox<String> countryid;
 
     @FXML
-    private TextField customerid;
-
-    @FXML
     private TextField nameid;
 
     @FXML
@@ -47,6 +44,7 @@ public class AddCustomerController implements Initializable{
     @FXML
     private ComboBox<String> stateid;
 
+    /** This event handler filters the selected country down to the first-level divisions.*/
     public void regionFilter(ActionEvent event) throws SQLException {
         if(countryid.getValue() != null){
             String id = countryid.getValue();
@@ -70,6 +68,7 @@ public class AddCustomerController implements Initializable{
 
     }
 
+    /** This event handler takes the user back to the dashboard page.*/
     @FXML
     public void back(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -80,6 +79,7 @@ public class AddCustomerController implements Initializable{
         stage.show();
     }
 
+    /** This event handler gets the data entered by the user and creates a new customer */
     public void submitCustomer(ActionEvent event) throws SQLException, IOException {
 
         String name = nameid.getText();
@@ -101,6 +101,8 @@ public class AddCustomerController implements Initializable{
     }
 
 
+
+    /** This initializes the page - allCountries is created to populate the combo box. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

@@ -19,10 +19,10 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.text.DateFormat;
+import java.time.*;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class AddAppointmentController implements Initializable {
 
@@ -89,7 +89,6 @@ public class AddAppointmentController implements Initializable {
             //Date start = startdateid.getValue();
             LocalDate start = startdateid.getValue();
             LocalDate end = start;
-            System.out.println("Start date: " + start + " - " + "End date: " + end);
             enddateid.setValue(end);
 
         }
@@ -120,9 +119,21 @@ public class AddAppointmentController implements Initializable {
 
         //Combine date/time entries to get one entry for the constuctor
         LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
-        Timestamp sqlDateEnd = Timestamp.valueOf(endDateTime);
         LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
-        Timestamp sqlDateStart = Timestamp.valueOf(startDateTime);
+        ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
+
+        ZonedDateTime startLocalZDT = ZonedDateTime.of(startDateTime, localZoneId);
+        ZonedDateTime endLocalZDT = ZonedDateTime.of(endDateTime, localZoneId);
+        Instant startLocalToUTC = startLocalZDT.toInstant();
+        Instant endLocalToUTC = endLocalZDT.toInstant();
+
+        System.out.println("Local Start Date/Time: " + startLocalZDT + " - Local End Date/Time: " + endLocalZDT);
+        System.out.println("UTC Start Date/Time: " + startLocalToUTC + " - UTC End Date/Time: " + endLocalToUTC);
+
+
+        Timestamp sqlDateEnd = Timestamp.from(endLocalToUTC);
+        Timestamp sqlDateStart = Timestamp.from(startLocalToUTC);
+
 
         ObservableList<Appointment> customerAppointments = AppointmentQuery.viewCustomerAppointments(customerId, sqlDateStart, sqlDateEnd);
         if(customerAppointments.size() > 0) {

@@ -225,24 +225,6 @@ public class DashboardController implements Initializable {
 
 
 
-    /** This method generates appointments table.
-    private void generateAppointmentsTable() {
-        appointmentstableview.refresh();
-
-        appointmentInventory.setAll(Inventory.getAllAppointments());
-
-        appointmentstableview.setItems(appointmentInventory);
-
-    }
-
-    /** This method generates customer table. */
-    /*private void generateCustomersTable() {
-        productInventory.setAll(inv.getAllProducts());
-
-        productsTable.setItems(productInventory);
-        productsTable.refresh();
-
-    }*/
 
     @FXML
     public void addCustomer(ActionEvent event) throws IOException {

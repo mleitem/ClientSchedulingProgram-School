@@ -260,16 +260,14 @@ public abstract class AppointmentQuery {
         return filteredAppointments;
     }
 
-    public static ObservableList<Appointment> viewCustomerAppointments(int customerId, Timestamp start, Timestamp end) throws SQLException {
+    public static ObservableList<Appointment> viewConflictingAppointments(Timestamp start) throws SQLException {
 
         ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
 
         Appointment appointment = null;
-        String sql = "SELECT * FROM appointments WHERE Customer_ID = ? AND Start BETWEEN ? AND ?";
+        String sql = "SELECT * FROM appointments WHERE Start = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, customerId);
-        ps.setTimestamp(2, start);
-        ps.setTimestamp(3, end);
+        ps.setTimestamp(1, start);
         ResultSet rs = ps.executeQuery();
         while(rs.next()) {
             int appointmentId = rs.getInt("Appointment_ID");

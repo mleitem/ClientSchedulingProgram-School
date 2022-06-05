@@ -9,10 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -157,15 +154,25 @@ public class UpdateAppointmentController implements Initializable {
         LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
         Timestamp sqlDateEnd = Timestamp.valueOf(endDateTime);
 
+        ObservableList<Appointment> customerAppointments = AppointmentQuery.viewConflictingAppointments(sqlDateStart);
+        if(customerAppointments.size() > 0) {
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
+            noSelectionAlert.setTitle("Error");
+            noSelectionAlert.setContentText("There is already an appointment scheduled for that date/time. Please choose another date/time.");
+            noSelectionAlert.showAndWait();
+        }
 
-        AppointmentQuery.updateAppointment(id, title, description, location, type, sqlDateStart, sqlDateEnd, customerId, userId, contactId);
 
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
-        scene = loader.load();
-        Scene root = new Scene(scene);
-        stage.setScene(root);
-        stage.show();
+        else {
+            AppointmentQuery.updateAppointment(id, title, description, location, type, sqlDateStart, sqlDateEnd, customerId, userId, contactId);
+
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
+            scene = loader.load();
+            Scene root = new Scene(scene);
+            stage.setScene(root);
+            stage.show();
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

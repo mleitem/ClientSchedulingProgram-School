@@ -145,9 +145,12 @@ public class AddAppointmentController implements Initializable {
         Timestamp sqlDateStart = Timestamp.from(startLocalToUTC);
 
 
-        ObservableList<Appointment> customerAppointments = AppointmentQuery.viewCustomerAppointments(customerId, sqlDateStart, sqlDateEnd);
+        ObservableList<Appointment> customerAppointments = AppointmentQuery.viewConflictingAppointments(sqlDateStart);
         if(customerAppointments.size() > 0) {
-            System.out.println("There's a conflict!");
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
+            noSelectionAlert.setTitle("Error");
+            noSelectionAlert.setContentText("There is already an appointment scheduled for that date/time. Please choose another date/time.");
+            noSelectionAlert.showAndWait();
         }
 
         else {

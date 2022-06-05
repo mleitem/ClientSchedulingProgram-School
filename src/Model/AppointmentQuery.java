@@ -16,6 +16,7 @@ import java.util.TimeZone;
 
 public abstract class AppointmentQuery {
 
+    /** This query pulls all appointments from the appointments table. */
     public static void allAppointments() throws SQLException {
         Inventory.allAppointments.clear();
         String sql = "SELECT * FROM appointments";
@@ -37,6 +38,9 @@ public abstract class AppointmentQuery {
         }
     }
 
+    /** This query deletes an appointment from the appointments table.
+     * @param appointmentId is the appointment to be deleted
+     */
     public static int deleteAppointment(int appointmentId) throws SQLException {
         String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -46,6 +50,16 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
+    /** This query adds an appointment to the appointments table.
+     * @param title is the appointment's title.
+     * @param description is the appointment's description.
+     * @param location is the appointment's location.
+     * @param type is the appointment's type.
+     * @param start is the appointment's start date/time.
+     * @param end is the appointment's end date/time
+     * @param customerId is the customer associated with the appointment.
+     * @param userId is the user booking the appointment.
+     */
     public static int addAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
         String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -66,6 +80,18 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
+    /** This query updates an appointment in the appointments table.
+     * @param id is the appointment to be modified.
+     * @param title is the title of the appointment.
+     * @param description is the description of the appointment.
+     * @param location is the location of the appointment.
+     * @param type is the type of appointment.
+     * @param start is the start date/time of the appointment.
+     * @param end is the end date/time of the appointment.
+     * @param customerId is the customer associated with the appointment.
+     * @param userId is the user booking the appointment.
+     * @param contactId is the contact associated with the appointment.
+     */
     public static int updateAppointment(int id, String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -84,8 +110,9 @@ public abstract class AppointmentQuery {
         return rowsAffected;
     }
 
-
-
+    /** This query pulls appointments that have a start date in the current month.
+     * @return an observable list with appointments that have a start date this month.
+     */
     public static ObservableList<Appointment> viewThisMonthAppointments() throws SQLException {
 
         ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
@@ -107,6 +134,9 @@ public abstract class AppointmentQuery {
         return filteredAppointments;
     }
 
+    /** This query pulls all of the contacts from the contacts table.
+     * @return an observable list containing all contacts.
+     */
     public static ObservableList<Integer> viewAllContacts() throws SQLException {
 
         ObservableList<Integer> allContacts = FXCollections.observableArrayList();
@@ -123,6 +153,9 @@ public abstract class AppointmentQuery {
         return allContacts;
     }
 
+    /** This query pulls all customers from the customers table.
+     * @return an observable list containing all customers.
+     */
     public static ObservableList<Integer> viewAllCustomers() throws SQLException {
 
         ObservableList<Integer> allCustomers = FXCollections.observableArrayList();
@@ -139,13 +172,14 @@ public abstract class AppointmentQuery {
         return allCustomers;
     }
 
+    /** This query puts together a list of start times based on the company's business hours and the user's time zone.
+     * @return an observable list of start times that have been converted to the user's time zone.
+     */
     public static ObservableList<LocalTime> viewStartTimes() {
         ObservableList<LocalTime> localZDTTimes = FXCollections.observableArrayList();
         ObservableList<LocalTime> startTimes = FXCollections.observableArrayList();
         LocalTime start = LocalTime.of(8,00);
         LocalTime end = LocalTime.of(19, 00);
-
-
 
         while(start.isBefore(end.plusSeconds(1))) {
             startTimes.add(start);
@@ -168,6 +202,9 @@ public abstract class AppointmentQuery {
         return localZDTTimes;
     }
 
+    /** This query puts together a list of end times based on the company's hours and the user's time zone.
+     * @return an observable list of end times that have been converted to the user's time zone.
+     */
     public static ObservableList<LocalTime> viewEndTimes() {
 
         ObservableList<LocalTime> localZDTTimes = FXCollections.observableArrayList();
@@ -196,6 +233,9 @@ public abstract class AppointmentQuery {
         return localZDTTimes;
     }
 
+    /** This query pulls all users from the user table.
+     * @return an observable list of all users.
+     */
     public static ObservableList<Integer> viewAllUsers() throws SQLException {
 
         ObservableList<Integer> allUsers = FXCollections.observableArrayList();
@@ -212,6 +252,9 @@ public abstract class AppointmentQuery {
     }
 
 
+    /** This query pulls appointments that have start dates in current week.
+     * @return an observable list of appointments starting this week.
+     */
     public static ObservableList<Appointment> viewThisWeekAppointments() throws SQLException {
 
         ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
@@ -232,7 +275,9 @@ public abstract class AppointmentQuery {
         return filteredAppointments;
     }
 
-
+    /** This query pulls appointments that have the same start date as the current date.
+     * @return an observable list of all appointments that have a start date the same as the current date.
+     */
     public static ObservableList<Appointment> viewTodayAppointments() throws SQLException {
 
         allAppointments();
@@ -254,6 +299,10 @@ public abstract class AppointmentQuery {
         return filteredAppointments;
     }
 
+    /** This query pulls appointments that have conflicting start date/times
+     * @param start is the timestamp being compared to appointments in the appointments table.
+     * @return an observable list of appointments that have conflicting start date/times.
+     */
     public static ObservableList<Appointment> viewConflictingAppointments(Timestamp start) throws SQLException {
 
         ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
@@ -275,8 +324,6 @@ public abstract class AppointmentQuery {
         }
         return customerAppointments;
     }
-
-
 
 }
 

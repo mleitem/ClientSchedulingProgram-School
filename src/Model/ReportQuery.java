@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 
 public abstract class ReportQuery {
 
+    /** This query pulls everything from the contacts table. */
     public static void viewAllContacts() throws SQLException {
 
         Inventory.getAllContacts().clear();
@@ -31,6 +32,9 @@ public abstract class ReportQuery {
         return;
     }
 
+    /** This query pulls all unique appointment types from the appointments table.
+     * @return an observable list of appointment types.
+     */
     public static ObservableList<String> viewAppointmentTypes() throws SQLException {
 
         ObservableList<String> types = FXCollections.observableArrayList();
@@ -46,6 +50,9 @@ public abstract class ReportQuery {
         return types;
     }
 
+    /** This query pulls all unique appointment locations from the appointments table.
+     * @return an observable list of appointment locations.
+     */
     public static ObservableList<String> viewAppointmentLocations() throws SQLException {
 
         ObservableList<String> locations = FXCollections.observableArrayList();
@@ -61,6 +68,10 @@ public abstract class ReportQuery {
         return locations;
     }
 
+    /** This query pulls all appointments that are associated with a specific contact.
+     * @param id is the contact with which the appointments are associated.
+     * @return an observable list of appointments.
+     */
     public static ObservableList<Appointment> totalAppointmentsByContact(int id) throws SQLException {
 
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
@@ -83,6 +94,10 @@ public abstract class ReportQuery {
         return appointments;
     }
 
+    /** This query pulls all appointments associated with a specific location.
+     * @param location is the location with which the appointments are associated.
+     * @return an observable list of appointments.
+     */
     public static ObservableList<Appointment> totalAppointmentsByLocation(String location) throws SQLException {
 
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
@@ -106,6 +121,11 @@ public abstract class ReportQuery {
         return appointments;
     }
 
+    /** This query pulls all appointments that are of a certain type and have a start date in a certain month.
+     * @param type the type of appointment.
+     * @param month the month of the appointment's start date.
+     * @return an observable list of appointments.
+     */
     public static ObservableList<Appointment> totalAppointmentsByTypeMonth(String type, String month) throws SQLException {
 
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();

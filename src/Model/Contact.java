@@ -12,6 +12,7 @@ public class Contact {
         this.contactEmail = contactEmail;
     }
 
+    /** Getters and setters for Contact variables. */
     public int getContactId() {
         return contactId;
     }

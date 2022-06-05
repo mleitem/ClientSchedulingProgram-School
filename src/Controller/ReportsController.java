@@ -206,7 +206,6 @@ public class ReportsController implements Initializable {
     public void submitButton3(ActionEvent event) throws IOException, SQLException {
         String location = locationcomboid.getValue();
 
-
         ObservableList<Appointment> locationAppointments = ReportQuery.totalAppointmentsByLocation(location);
 
         if(locationAppointments.size() > 0) {

@@ -29,6 +29,7 @@ public class Customer {
         this.divId = divId;
     }
 
+    /** Getters and setters for Customer variables. */
     public int getId() {
         return id;
     }
@@ -77,31 +78,7 @@ public class Customer {
         this.divId = divId;
     }
 
-    protected static ObservableList<Appointment> associatedAppointments = FXCollections.observableArrayList();
 
-    public static void addAppointment(Appointment newAppointment) {
-        associatedAppointments.add(newAppointment);
-    }
-
-    public static ObservableList<Appointment> getAllAppointments() {
-        return associatedAppointments;
-    }
-
-    /*public static ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
-
-    public static void addToFilteredAppointments(Appointment filteredAppointment) {filteredAppointments.add(filteredAppointment);}
-
-    public static void clearFilteredAppointments() {
-        if (filteredAppointments.size() > 0) {
-            for (int i = 0; i < filteredAppointments.size(); ++i) {
-                filteredAppointments.remove(i);
-            }
-        }
-    }*/
-
-    public static void deleteAppointment(Appointment deleteAppointment) {
-        associatedAppointments.remove(deleteAppointment);
-    }
 
 
 

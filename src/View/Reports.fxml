@@ -35,7 +35,7 @@
                         </TableView>
                         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="255.0" layoutY="43.0" prefHeight="17.0" prefWidth="317.0" text="Please select a month and appointment type." />
                         <Button layoutX="387.0" layoutY="198.0" mnemonicParsing="false" onAction="#submitButton1" text="Submit" />
-                        <Button layoutX="389.0" layoutY="493.0" mnemonicParsing="false" onAction="#back" text="Back" />
+                        <Button fx:id="backbutton" layoutX="389.0" layoutY="493.0" mnemonicParsing="false" text="Back" />
                         <HBox layoutX="8.0" layoutY="210.0" prefHeight="17.0" prefWidth="151.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="114.0" text="Total Appointments: " />

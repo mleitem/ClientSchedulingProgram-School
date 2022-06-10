@@ -154,6 +154,9 @@ public class ReportsController implements Initializable {
     @FXML
     private ComboBox<String> locationcomboid;
 
+    @FXML
+    private Button backbutton;
+
     /** This event handler takes the user entry to filter down the appointments to those of the same month and type
      * as the choices of the user. */
     @FXML
@@ -223,8 +226,10 @@ public class ReportsController implements Initializable {
 
     }
 
+
+
     /** This event handler takes the user back to the dashboard page. */
-    @FXML
+   /* @FXML
     public void back(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboard.fxml"));
@@ -232,7 +237,7 @@ public class ReportsController implements Initializable {
         Scene root = new Scene(scene);
         stage.setScene(root);
         stage.show();
-    }
+    }*/
 
     /** This initializes the page and populates all of the tables/combo boxes. */
     @Override
@@ -243,7 +248,6 @@ public class ReportsController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
 
         ObservableList<String> months = FXCollections.observableArrayList();
         months.add("January");

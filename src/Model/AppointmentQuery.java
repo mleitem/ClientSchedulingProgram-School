@@ -246,7 +246,6 @@ public abstract class AppointmentQuery {
         while (rs.next()) {
             int userId = rs.getInt("User_ID");
             allUsers.add(userId);
-            System.out.println(userId);
         }
         return allUsers;
     }

@@ -113,7 +113,6 @@ public abstract class ReportQuery {
             for (int i = 0; i < Inventory.allAppointments.size(); ++i) {
                 appointment = Inventory.allAppointments.get(i);
                 if (appointment.getAppointmentId() == appointmentId) {
-                    System.out.println(appointmentId);
                     appointments.add(appointment);
                 }
             }

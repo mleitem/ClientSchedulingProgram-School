@@ -1,5 +1,6 @@
 package Model;
 
+import Helper.GeneralInterface;
 import Helper.JDBC;
 import Model.Appointment;
 import javafx.collections.FXCollections;
@@ -10,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-public abstract class CustomerQuery {
+public abstract class CustomerQuery implements GeneralInterface {
 
     /** This query adds a new customer to the customer table.
      * @param customerName is the name of the customer.
@@ -218,9 +219,16 @@ public abstract class CustomerQuery {
         return canadaRegions;
     }
 
+
+
     /** This query gets the country that matches the provided ID.
      * @param divId the ID used to find a corresponding country.
-     * @return an observable list of countries that match divId.
+     *
+     *
+     * LAMBDA EXPRESSION JUSTIFICATION: I chose to implement a lambda expression below to quickly concatenate
+     * the country ID and name for the observable list.
+     *
+     *  @return an observable list of countries that match divId.
      */
     public static ObservableList<String> getCountry(int divId) throws SQLException {
 
@@ -242,8 +250,17 @@ public abstract class CustomerQuery {
             if(countryId == 3){
                 name = "Canada";
             }
-            String completeName = countryId + ": " + name;
+            /*String completeName = countryId + ": " + name;
             country.add(completeName);
+            String finalName = name;*/
+
+            GeneralInterface country1 = (String a, String b) -> {
+                String fullName = a + ": " + b;
+                return fullName;
+            };
+
+           String stringId = String.valueOf(countryId);
+           country.add(country1.completeCountry(stringId, name));
         }
         return country;
     }

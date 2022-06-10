@@ -1,5 +1,7 @@
 package Controller;
 
+import Helper.DashboardInterface;
+import Helper.GeneralInterface;
 import Helper.JDBC;
 import Model.Appointment;
 import Model.AppointmentQuery;
@@ -148,6 +150,7 @@ public class LoginController implements Initializable {
             Scene root = new Scene(scene);
             stage.setScene(root);
             stage.show();
+
         } else {
             result = "Failed";
             outputFile.println(user + " | " + result + " | " + formattedDate + " | ");
@@ -180,6 +183,7 @@ public class LoginController implements Initializable {
         else{
             login = false;
         }
+
         return login;
     }
 

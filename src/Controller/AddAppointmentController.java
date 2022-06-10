@@ -1,5 +1,6 @@
 package Controller;
 
+import Helper.DashboardInterface;
 import Model.Appointment;
 import Model.AppointmentQuery;
 import Model.Customer;
@@ -72,7 +73,6 @@ public class AddAppointmentController implements Initializable {
         if(starttimeid.getSelectionModel().getSelectedItem() != null) {
             LocalTime start = starttimeid.getSelectionModel().getSelectedItem();
             LocalTime end = start.plusHours(1);
-            System.out.println("Start time: " + start + " - " + "End time: " + end);
             endtimeid.getSelectionModel().select(end);
         }
     }
@@ -104,9 +104,7 @@ public class AddAppointmentController implements Initializable {
             LocalDate start = startdateid.getValue();
             LocalDate end = start;
             enddateid.setValue(end);
-
         }
-
     }
 
     /** This event handler automatically selects a start date (same date as start) as soon as the end date is not null */

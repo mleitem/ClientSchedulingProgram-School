@@ -123,7 +123,7 @@ public class DashboardController implements Initializable {
 
     /** This event handler takes the user to the "Update Appointment" page to update the appointment selected from the table. */
     @FXML
-    public void updateAppointment(ActionEvent event) throws IOException {
+    public void updateAppointment(ActionEvent event) throws IOException, SQLException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/update_appointment.fxml"));
         scene = loader.load();

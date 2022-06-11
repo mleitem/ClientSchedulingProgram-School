@@ -64,7 +64,7 @@ public class AddAppointmentController implements Initializable {
     private TextField typeid;
 
     @FXML
-    private ComboBox<Integer> userid;
+    private ComboBox<String> userid;
 
 
     /** This event handler automatically selects an end time (one hour after the start time) as soon as the start time is not null */
@@ -129,7 +129,9 @@ public class AddAppointmentController implements Initializable {
         LocalTime startTime = starttimeid.getValue();
         LocalTime endTime = endtimeid.getValue();
         int customerId = customerid.getValue();
-        int userId = userid.getValue();
+        String userId = userid.getValue();
+        userId = userId.split(":")[0];
+        int newId = Integer.parseInt(userId);
         int contactId = contactid.getValue();
 
         // Create local ZonedDateTime for start/end
@@ -169,7 +171,7 @@ public class AddAppointmentController implements Initializable {
         }
 
         else {
-            AppointmentQuery.addAppointment(title, description, location, type, sqlDateStart, sqlDateEnd, customerId, userId, contactId);
+            AppointmentQuery.addAppointment(title, description, location, type, sqlDateStart, sqlDateEnd, customerId, newId, contactId);
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
             scene = loader.load();
@@ -190,7 +192,7 @@ public class AddAppointmentController implements Initializable {
         try {
             ObservableList<Integer> allContacts = AppointmentQuery.viewAllContacts();
             ObservableList<Integer> allCustomers = AppointmentQuery.viewAllCustomers();
-            ObservableList<Integer> allUsers = AppointmentQuery.viewAllUsers();
+            ObservableList<String> allUsers = AppointmentQuery.viewAllUsers();
             ObservableList<LocalTime> startTimes = AppointmentQuery.viewStartTimes();
             ObservableList<LocalTime> endTimes = AppointmentQuery.viewEndTimes();
             contactid.setItems(allContacts);

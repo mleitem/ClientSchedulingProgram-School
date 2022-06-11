@@ -113,12 +113,13 @@ public class LoginController implements Initializable {
                 noSelectionAlert.setContentText(upcomingAppointments);
                 noSelectionAlert.showAndWait();
             }
-            if(filteredAppointments.size() == 0 || todayAppointments.size() == 0) {
-                Alert noSelectionAlert = new Alert(Alert.AlertType.INFORMATION);
-                noSelectionAlert.setTitle("Upcoming Appointments");
-                noSelectionAlert.setContentText("No appointments in the next 15 minutes.");
-                noSelectionAlert.showAndWait();
-            }
+
+        }
+        if(filteredAppointments.size() == 0 || todayAppointments.size() == 0) {
+            Alert noSelectionAlert = new Alert(Alert.AlertType.INFORMATION);
+            noSelectionAlert.setTitle("Upcoming Appointments");
+            noSelectionAlert.setContentText("No appointments in the next 15 minutes.");
+            noSelectionAlert.showAndWait();
         }
     }
 

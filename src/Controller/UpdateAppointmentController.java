@@ -57,7 +57,7 @@ public class UpdateAppointmentController implements Initializable {
     private TextField typeid;
 
     @FXML
-    private ComboBox<Integer> userid;
+    private ComboBox<String> userid;
 
     Stage stage;
     Parent scene;
@@ -66,7 +66,7 @@ public class UpdateAppointmentController implements Initializable {
     /** This method populates the form with information from the appointment selected from the dashboard.
      * @param appointment the appointment to be modified.
      */
-    public void setAppointment(Appointment appointment){
+    public void setAppointment(Appointment appointment) throws SQLException {
 
         appointmentid.setText(String.valueOf(appointment.getAppointmentId()));
         titleid.setText(appointment.getTitle());
@@ -81,7 +81,10 @@ public class UpdateAppointmentController implements Initializable {
         starttimeid.setValue(startTime);
         startdateid.setValue(startDate);
         customerid.setValue(appointment.getCustomerId());
-        userid.setValue(appointment.getUserId());
+        int userId = appointment.getUserId();
+        userid.setValue(AppointmentQuery.viewUserName(userId).get(0));
+        //userid.setValue(appointment.getUserId());
+
 
     }
 
@@ -148,7 +151,9 @@ public class UpdateAppointmentController implements Initializable {
         LocalTime startTime = starttimeid.getValue();
         LocalTime endTime = endtimeid.getValue();
         int customerId = customerid.getValue();
-        int userId = userid.getValue();
+        String userId = userid.getValue();
+        userId = userId.split(":")[0];
+        int newId = Integer.parseInt(userId);
         int contactId = contactid.getValue();
 
         LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
@@ -183,7 +188,7 @@ public class UpdateAppointmentController implements Initializable {
         }
 
         else {
-            AppointmentQuery.updateAppointment(id, title, description, location, type, sqlDateStart, sqlDateEnd, customerId, userId, contactId);
+            AppointmentQuery.updateAppointment(id, title, description, location, type, sqlDateStart, sqlDateEnd, customerId, newId, contactId);
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
@@ -201,7 +206,7 @@ public class UpdateAppointmentController implements Initializable {
         try {
             ObservableList<Integer> allContacts = AppointmentQuery.viewAllContacts();
             ObservableList<Integer> allCustomers = AppointmentQuery.viewAllCustomers();
-            ObservableList<Integer> allUsers = AppointmentQuery.viewAllUsers();
+            ObservableList<String> allUsers = AppointmentQuery.viewAllUsers();
             ObservableList<LocalTime> startTimes = AppointmentQuery.viewStartTimes();
             ObservableList<LocalTime> endTimes = AppointmentQuery.viewEndTimes();
             contactid.setItems(allContacts);

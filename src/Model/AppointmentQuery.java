@@ -236,20 +236,44 @@ public abstract class AppointmentQuery {
     /** This query pulls all users from the user table.
      * @return an observable list of all users.
      */
-    public static ObservableList<Integer> viewAllUsers() throws SQLException {
+    public static ObservableList<String> viewAllUsers() throws SQLException {
 
-        ObservableList<Integer> allUsers = FXCollections.observableArrayList();
+        ObservableList<String> allUsers = FXCollections.observableArrayList();
 
-        String sql = "SELECT User_ID FROM users";
+        String sql = "SELECT * FROM users";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int userId = rs.getInt("User_ID");
-            allUsers.add(userId);
+            String userName = rs.getString("User_Name");
+
+            String id = String.valueOf(userId);
+            String fullInfo = id + ": " + userName;
+
+            allUsers.add(fullInfo);
         }
         return allUsers;
     }
 
+    public static ObservableList<String> viewUserName(int id) throws SQLException {
+
+        ObservableList<String> allUsers = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM users WHERE User_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int userId = rs.getInt("User_ID");
+            String userName = rs.getString("User_Name");
+
+            String newId = String.valueOf(userId);
+            String fullInfo = newId + ": " + userName;
+
+            allUsers.add(fullInfo);
+        }
+        return allUsers;
+    }
 
     /** This query pulls appointments that have start dates in current week.
      * @return an observable list of appointments starting this week.

@@ -59,7 +59,7 @@
             <HBox alignment="CENTER" layoutX="10.0" layoutY="160.0" prefHeight="22.0" prefWidth="297.0" spacing="20.0">
                <children>
                   <Label prefHeight="17.0" prefWidth="92.0" text="Start Time:" />
-                  <ComboBox fx:id="starttimeid" onAction="#endSelect" prefWidth="150.0" />
+                  <ComboBox fx:id="starttimeid" prefWidth="150.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" layoutX="10.0" layoutY="160.0" prefHeight="22.0" prefWidth="297.0" spacing="20.0">

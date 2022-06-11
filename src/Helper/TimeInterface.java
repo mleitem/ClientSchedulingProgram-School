@@ -5,6 +5,6 @@ import javafx.event.Event;
 
 import java.io.IOException;
 
-public interface DashboardInterface {
-    void backToDash(ActionEvent e);
+public interface TimeInterface {
+    void selectTime(ActionEvent e);
 }

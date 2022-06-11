@@ -1,6 +1,6 @@
 package Controller;
 
-import Helper.DashboardInterface;
+import Helper.TimeInterface;
 import Helper.GeneralInterface;
 import Helper.JDBC;
 import Model.Appointment;

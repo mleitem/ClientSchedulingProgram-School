@@ -1,6 +1,6 @@
 package Controller;
 
-import Helper.DashboardInterface;
+import Helper.TimeInterface;
 import Model.Appointment;
 import Model.AppointmentQuery;
 import Model.Customer;
@@ -68,14 +68,14 @@ public class AddAppointmentController implements Initializable {
 
 
     /** This event handler automatically selects an end time (one hour after the start time) as soon as the start time is not null */
-    public void endSelect(ActionEvent event) {
+    /*public void endSelect(ActionEvent event) {
 
         if(starttimeid.getSelectionModel().getSelectedItem() != null) {
             LocalTime start = starttimeid.getSelectionModel().getSelectedItem();
             LocalTime end = start.plusHours(1);
             endtimeid.getSelectionModel().select(end);
         }
-    }
+    }*/
 
     /** This event handler takes the user back to the dashboard page. */
     @FXML
@@ -179,7 +179,11 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
-    /** This initializes the page - AppointmentQuery queries are called to populate observable lists for the combo boxes. */
+    /** This initializes the page - AppointmentQuery queries are called to populate observable lists for the combo boxes.
+     *
+     * LAMBDA EXPRESSION JUSTIFICATION: I implemented a lambda expression as an event listener for the start time combo box.
+     * When a time is selected from the start time list, an end time is automatically chosen.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -194,6 +198,14 @@ public class AddAppointmentController implements Initializable {
             userid.setItems(allUsers);
             starttimeid.setItems(startTimes);
             endtimeid.setItems(endTimes);
+
+            starttimeid.setOnAction(event -> {
+                if(starttimeid.getSelectionModel().getSelectedItem() != null) {
+                    LocalTime start = starttimeid.getSelectionModel().getSelectedItem();
+                    LocalTime end = start.plusHours(1);
+                    endtimeid.getSelectionModel().select(end);
+                }
+            });
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

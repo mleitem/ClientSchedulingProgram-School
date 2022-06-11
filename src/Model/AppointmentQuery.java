@@ -137,17 +137,20 @@ public abstract class AppointmentQuery {
     /** This query pulls all of the contacts from the contacts table.
      * @return an observable list containing all contacts.
      */
-    public static ObservableList<Integer> viewAllContacts() throws SQLException {
+    public static ObservableList<String> viewAllContacts() throws SQLException {
 
-        ObservableList<Integer> allContacts = FXCollections.observableArrayList();
+        ObservableList<String> allContacts = FXCollections.observableArrayList();
 
-        String sql = "SELECT Contact_ID FROM contacts";
+        String sql = "SELECT * FROM contacts";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while(rs.next()){
 
             int contactId = rs.getInt("Contact_ID");
-            allContacts.add(contactId);
+            String newId = String.valueOf(contactId);
+            String contactName = rs.getString("Contact_Name");
+            String fullInfo = newId + ": " + contactName;
+            allContacts.add(fullInfo);
 
         }
         return allContacts;
@@ -156,18 +159,20 @@ public abstract class AppointmentQuery {
     /** This query pulls all customers from the customers table.
      * @return an observable list containing all customers.
      */
-    public static ObservableList<Integer> viewAllCustomers() throws SQLException {
+    public static ObservableList<String> viewAllCustomers() throws SQLException {
 
-        ObservableList<Integer> allCustomers = FXCollections.observableArrayList();
+        ObservableList<String> allCustomers = FXCollections.observableArrayList();
 
-        String sql = "SELECT Customer_ID FROM customers";
+        String sql = "SELECT * FROM customers";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
 
             int customerId = rs.getInt("Customer_ID");
-            allCustomers.add(customerId);
-            System.out.println(customerId);
+            String customerName = rs.getString("Customer_Name");
+            String id = String.valueOf(customerId);
+            String fullInfo = id + ": " + customerName;
+            allCustomers.add(fullInfo);
         }
         return allCustomers;
     }
@@ -255,6 +260,12 @@ public abstract class AppointmentQuery {
         return allUsers;
     }
 
+    /**
+     *  This query pulls a user's name, based on the id entered. It concatenates the id with the name for the combo box
+     *  on the UpdateAppointment page.
+     * @param id the user's id
+     * @return an observable list of users' names and corresponding id's
+     */
     public static ObservableList<String> viewUserName(int id) throws SQLException {
 
         ObservableList<String> allUsers = FXCollections.observableArrayList();
@@ -269,6 +280,56 @@ public abstract class AppointmentQuery {
 
             String newId = String.valueOf(userId);
             String fullInfo = newId + ": " + userName;
+
+            allUsers.add(fullInfo);
+        }
+        return allUsers;
+    }
+
+    /** This query pulls a customer's name, based on the id entered. It concatenates the id with the name for the combo box
+     *  on the UpdateAppointment page.
+     * @param id the customer's id
+     * @return an observable list of customers' names and corresponding id's
+     */
+    public static ObservableList<String> viewCustomerName(int id) throws SQLException {
+
+        ObservableList<String> allUsers = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM customers WHERE Customer_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int custId = rs.getInt("Customer_ID");
+            String custName = rs.getString("Customer_Name");
+
+            String newId = String.valueOf(custId);
+            String fullInfo = newId + ": " + custName;
+
+            allUsers.add(fullInfo);
+        }
+        return allUsers;
+    }
+
+    /** This query pulls a contact's name, based on the id entered. It concatenates the id with the name for the combo box
+     *  on the UpdateAppointment page.
+     * @param id the contact's id
+     * @return an observable list of contacts' names and corresponding id's
+     */
+    public static ObservableList<String> viewContactName(int id) throws SQLException {
+
+        ObservableList<String> allUsers = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM contacts WHERE Contact_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int conId = rs.getInt("Contact_ID");
+            String conName = rs.getString("Contact_Name");
+
+            String newId = String.valueOf(conId);
+            String fullInfo = newId + ": " + conName;
 
             allUsers.add(fullInfo);
         }
@@ -348,6 +409,33 @@ public abstract class AppointmentQuery {
         return customerAppointments;
     }
 
+    /** This query pulls appointments that have conflicting start date/times with appointments other than
+     * the appointment being updated.
+     * @param start is the timestamp being compared to appointments in the appointments table.
+     * @return an observable list of appointments that have conflicting start date/times.
+     */
+    public static ObservableList<Appointment> viewConflictingAppointmentsUpdate(Timestamp start, int id) throws SQLException {
+
+        ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+
+        Appointment appointment = null;
+        String sql = "SELECT * FROM appointments WHERE Start = ? AND APPOINTMENT_ID <> ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setTimestamp(1, start);
+        ps.setInt(2, id);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int appointmentId = rs.getInt("Appointment_ID");
+
+            for(int i = 0; i < Inventory.allAppointments.size(); ++i){
+                appointment = Inventory.allAppointments.get(i);
+                if (appointment.getAppointmentId() == appointmentId) {
+                    customerAppointments.add(appointment);
+                }
+            }
+        }
+        return customerAppointments;
+    }
 }
 
 

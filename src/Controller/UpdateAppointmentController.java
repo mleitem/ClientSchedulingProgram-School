@@ -27,10 +27,10 @@ public class UpdateAppointmentController implements Initializable {
     private TextField appointmentid;
 
     @FXML
-    private ComboBox<Integer> contactid;
+    private ComboBox<String> contactid;
 
     @FXML
-    private ComboBox<Integer> customerid;
+    private ComboBox<String> customerid;
 
     @FXML
     private TextField descriptionid;
@@ -73,17 +73,19 @@ public class UpdateAppointmentController implements Initializable {
         descriptionid.setText(appointment.getDescription());
         typeid.setText(appointment.getType());
         locationid.setText(appointment.getLocation());
-        contactid.setValue(appointment.getContactId());
+        int contactId = appointment.getContactId();
+        contactid.setValue(AppointmentQuery.viewContactName(contactId).get(0));
         Timestamp start = appointment.getStart();
         ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
         LocalDate startDate = start.toInstant().atZone(localZoneId).toLocalDate();
         LocalTime startTime = start.toInstant().atZone(localZoneId).toLocalTime();
         starttimeid.setValue(startTime);
         startdateid.setValue(startDate);
-        customerid.setValue(appointment.getCustomerId());
+        int customerId = appointment.getCustomerId();
+        customerid.setValue(AppointmentQuery.viewCustomerName(customerId).get(0));
         int userId = appointment.getUserId();
         userid.setValue(AppointmentQuery.viewUserName(userId).get(0));
-        //userid.setValue(appointment.getUserId());
+
 
 
     }
@@ -93,7 +95,6 @@ public class UpdateAppointmentController implements Initializable {
         if(starttimeid.getSelectionModel().getSelectedItem() != null) {
             LocalTime start = starttimeid.getSelectionModel().getSelectedItem();
             LocalTime end = start.plusHours(1);
-            System.out.println("Start time: " + start + " - " + "End time: " + end);
             endtimeid.getSelectionModel().select(end);
         }
     }
@@ -112,7 +113,6 @@ public class UpdateAppointmentController implements Initializable {
         if(startdateid.getValue() != null){
             LocalDate start = startdateid.getValue();
             LocalDate end = start;
-            System.out.println("Start date: " + start + " - " + "End date: " + end);
             enddateid.setValue(end);
 
         }
@@ -150,11 +150,15 @@ public class UpdateAppointmentController implements Initializable {
         LocalDate endDate = enddateid.getValue();
         LocalTime startTime = starttimeid.getValue();
         LocalTime endTime = endtimeid.getValue();
-        int customerId = customerid.getValue();
+        String customerId = customerid.getValue();
+        customerId = customerId.split(":")[0];
+        int newCustId = Integer.parseInt(customerId);
         String userId = userid.getValue();
         userId = userId.split(":")[0];
         int newId = Integer.parseInt(userId);
-        int contactId = contactid.getValue();
+        String contactId = contactid.getValue();
+        contactId = contactId.split(":")[0];
+        int newContactId = Integer.parseInt(contactId);
 
         LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
         LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
@@ -172,7 +176,7 @@ public class UpdateAppointmentController implements Initializable {
         ZonedDateTime startEastCoastZDT = startLocalZDT.withZoneSameInstant(eastCoastZoneId);
         LocalTime eastCoastStartTime = startEastCoastZDT.toLocalTime();
 
-        ObservableList<Appointment> customerAppointments = AppointmentQuery.viewConflictingAppointments(sqlDateStart);
+        ObservableList<Appointment> customerAppointments = AppointmentQuery.viewConflictingAppointmentsUpdate(sqlDateStart, id);
         if(customerAppointments.size() > 0) {
             Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
             noSelectionAlert.setTitle("Error");
@@ -180,7 +184,7 @@ public class UpdateAppointmentController implements Initializable {
             noSelectionAlert.showAndWait();
         }
 
-        if(eastCoastStartTime.isBefore(LocalTime.parse("07:59:00")) || eastCoastStartTime.isAfter(LocalTime.parse("20:00:00"))){
+        else if(eastCoastStartTime.isBefore(LocalTime.parse("07:59:00")) || eastCoastStartTime.isAfter(LocalTime.parse("20:00:00"))){
             Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
             noSelectionAlert.setTitle("Error");
             noSelectionAlert.setContentText("Please choose an appointment time within business hours: 8:00am-10:00pm, Mon-Sun.");
@@ -188,7 +192,7 @@ public class UpdateAppointmentController implements Initializable {
         }
 
         else {
-            AppointmentQuery.updateAppointment(id, title, description, location, type, sqlDateStart, sqlDateEnd, customerId, newId, contactId);
+            AppointmentQuery.updateAppointment(id, title, description, location, type, sqlDateStart, sqlDateEnd, newCustId, newId, newContactId);
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
@@ -204,8 +208,8 @@ public class UpdateAppointmentController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
-            ObservableList<Integer> allContacts = AppointmentQuery.viewAllContacts();
-            ObservableList<Integer> allCustomers = AppointmentQuery.viewAllCustomers();
+            ObservableList<String> allContacts = AppointmentQuery.viewAllContacts();
+            ObservableList<String> allCustomers = AppointmentQuery.viewAllCustomers();
             ObservableList<String> allUsers = AppointmentQuery.viewAllUsers();
             ObservableList<LocalTime> startTimes = AppointmentQuery.viewStartTimes();
             ObservableList<LocalTime> endTimes = AppointmentQuery.viewEndTimes();

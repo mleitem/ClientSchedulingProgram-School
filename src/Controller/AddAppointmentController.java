@@ -34,10 +34,10 @@ public class AddAppointmentController implements Initializable {
     private TextField appointmentid;
 
     @FXML
-    private ComboBox<Integer> contactid;
+    private ComboBox<String> contactid;
 
     @FXML
-    private ComboBox<Integer> customerid;
+    private ComboBox<String> customerid;
 
     @FXML
     private TextField descriptionid;
@@ -128,11 +128,15 @@ public class AddAppointmentController implements Initializable {
         LocalDate endDate = enddateid.getValue();
         LocalTime startTime = starttimeid.getValue();
         LocalTime endTime = endtimeid.getValue();
-        int customerId = customerid.getValue();
+        String customerId = customerid.getValue();
+        customerId = customerId.split(":")[0];
+        int newCustomerId = Integer.parseInt(customerId);
         String userId = userid.getValue();
         userId = userId.split(":")[0];
         int newId = Integer.parseInt(userId);
-        int contactId = contactid.getValue();
+        String contactId = contactid.getValue();
+        contactId = contactId.split(":")[0];
+        int newContactId = Integer.parseInt(contactId);
 
         // Create local ZonedDateTime for start/end
         LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
@@ -171,7 +175,7 @@ public class AddAppointmentController implements Initializable {
         }
 
         else {
-            AppointmentQuery.addAppointment(title, description, location, type, sqlDateStart, sqlDateEnd, customerId, newId, contactId);
+            AppointmentQuery.addAppointment(title, description, location, type, sqlDateStart, sqlDateEnd, newCustomerId, newId, newContactId);
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Dashboard.fxml"));
             scene = loader.load();
@@ -190,8 +194,8 @@ public class AddAppointmentController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
-            ObservableList<Integer> allContacts = AppointmentQuery.viewAllContacts();
-            ObservableList<Integer> allCustomers = AppointmentQuery.viewAllCustomers();
+            ObservableList<String> allContacts = AppointmentQuery.viewAllContacts();
+            ObservableList<String> allCustomers = AppointmentQuery.viewAllCustomers();
             ObservableList<String> allUsers = AppointmentQuery.viewAllUsers();
             ObservableList<LocalTime> startTimes = AppointmentQuery.viewStartTimes();
             ObservableList<LocalTime> endTimes = AppointmentQuery.viewEndTimes();

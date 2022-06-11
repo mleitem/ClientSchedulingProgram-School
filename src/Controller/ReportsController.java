@@ -229,7 +229,7 @@ public class ReportsController implements Initializable {
 
 
     /** This event handler takes the user back to the dashboard page. */
-   /* @FXML
+   @FXML
     public void back(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboard.fxml"));
@@ -237,7 +237,7 @@ public class ReportsController implements Initializable {
         Scene root = new Scene(scene);
         stage.setScene(root);
         stage.show();
-    }*/
+    }
 
     /** This initializes the page and populates all of the tables/combo boxes. */
     @Override

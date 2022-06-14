@@ -250,9 +250,6 @@ public abstract class CustomerQuery implements GeneralInterface {
             if(countryId == 3){
                 name = "Canada";
             }
-            /*String completeName = countryId + ": " + name;
-            country.add(completeName);
-            String finalName = name;*/
 
             GeneralInterface country1 = (String a, String b) -> {
                 String fullName = a + ": " + b;

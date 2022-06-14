@@ -124,16 +124,25 @@ public class DashboardController implements Initializable {
     /** This event handler takes the user to the "Update Appointment" page to update the appointment selected from the table. */
     @FXML
     public void updateAppointment(ActionEvent event) throws IOException, SQLException {
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/update_appointment.fxml"));
-        scene = loader.load();
-        Scene root = new Scene(scene);
-        stage.setScene(root);
-        stage.show();
 
-        UpdateAppointmentController controller = loader.getController();
-        Appointment appointment = appointmentstableview.getSelectionModel().getSelectedItem();
-        controller.setAppointment(appointment);
+        if(appointmentstableview.getSelectionModel().isEmpty()) {
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
+            noSelectionAlert.setTitle("Error");
+            noSelectionAlert.setContentText("Please choose an appointment to update.");
+            noSelectionAlert.showAndWait();
+        }
+        else {
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/update_appointment.fxml"));
+            scene = loader.load();
+            Scene root = new Scene(scene);
+            stage.setScene(root);
+            stage.show();
+
+            UpdateAppointmentController controller = loader.getController();
+            Appointment appointment = appointmentstableview.getSelectionModel().getSelectedItem();
+            controller.setAppointment(appointment);
+        }
     }
 
     /** This event handler deletes the selected appointment, after confirmation from the user. */
@@ -189,16 +198,25 @@ public class DashboardController implements Initializable {
     /** This event handler takes the user to the "Update Customer" page to update the customer selected from the table.*/
     @FXML
     public void updateCustomer(ActionEvent event) throws IOException, SQLException {
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/update_customer.fxml"));
-        scene = loader.load();
-        Scene root = new Scene(scene);
-        stage.setScene(root);
-        stage.show();
 
-        UpdateCustomerController controller = loader.getController();
-        Customer customer = customertableview.getSelectionModel().getSelectedItem();
-        controller.setCustomer(customer);
+        if(customertableview.getSelectionModel().isEmpty()) {
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
+            noSelectionAlert.setTitle("Error");
+            noSelectionAlert.setContentText("Please choose a customer to update.");
+            noSelectionAlert.showAndWait();
+        }
+        else {
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/update_customer.fxml"));
+            scene = loader.load();
+            Scene root = new Scene(scene);
+            stage.setScene(root);
+            stage.show();
+
+            UpdateCustomerController controller = loader.getController();
+            Customer customer = customertableview.getSelectionModel().getSelectedItem();
+            controller.setCustomer(customer);
+        }
     }
 
     /** This event handler deletes the customer's appointments and then the customer, after an initial confirmation from the user. */

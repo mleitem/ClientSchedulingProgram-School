@@ -176,7 +176,7 @@ public class UpdateAppointmentController implements Initializable {
         ZonedDateTime startEastCoastZDT = startLocalZDT.withZoneSameInstant(eastCoastZoneId);
         LocalTime eastCoastStartTime = startEastCoastZDT.toLocalTime();
 
-        ObservableList<Appointment> customerAppointments = AppointmentQuery.viewConflictingAppointmentsUpdate(sqlDateStart, id);
+        ObservableList<Appointment> customerAppointments = AppointmentQuery.viewConflictingAppointmentsUpdate(sqlDateStart, sqlDateEnd, id);
         if(customerAppointments.size() > 0) {
             Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
             noSelectionAlert.setTitle("Error");

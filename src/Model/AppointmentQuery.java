@@ -387,14 +387,15 @@ public abstract class AppointmentQuery {
      * @param start is the timestamp being compared to appointments in the appointments table.
      * @return an observable list of appointments that have conflicting start date/times.
      */
-    public static ObservableList<Appointment> viewConflictingAppointments(Timestamp start) throws SQLException {
+    public static ObservableList<Appointment> viewConflictingAppointments(Timestamp start, Timestamp end) throws SQLException {
 
         ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
 
         Appointment appointment = null;
-        String sql = "SELECT * FROM appointments WHERE Start = ?";
+        String sql = "SELECT * FROM appointments WHERE Start < ? AND End  > ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setTimestamp(1, start);
+        ps.setTimestamp(1, end);
+        ps.setTimestamp(2, start);
         ResultSet rs = ps.executeQuery();
         while(rs.next()) {
             int appointmentId = rs.getInt("Appointment_ID");
@@ -402,6 +403,7 @@ public abstract class AppointmentQuery {
             for(int i = 0; i < Inventory.allAppointments.size(); ++i){
                 appointment = Inventory.allAppointments.get(i);
                 if (appointment.getAppointmentId() == appointmentId) {
+                    System.out.println(appointmentId);
                     customerAppointments.add(appointment);
                 }
             }
@@ -414,15 +416,16 @@ public abstract class AppointmentQuery {
      * @param start is the timestamp being compared to appointments in the appointments table.
      * @return an observable list of appointments that have conflicting start date/times.
      */
-    public static ObservableList<Appointment> viewConflictingAppointmentsUpdate(Timestamp start, int id) throws SQLException {
+    public static ObservableList<Appointment> viewConflictingAppointmentsUpdate(Timestamp start, Timestamp end, int id) throws SQLException {
 
         ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
 
         Appointment appointment = null;
-        String sql = "SELECT * FROM appointments WHERE Start = ? AND APPOINTMENT_ID <> ?";
+        String sql = "SELECT * FROM appointments WHERE (Start < ? AND End > ?) AND APPOINTMENT_ID <> ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setTimestamp(1, start);
-        ps.setInt(2, id);
+        ps.setTimestamp(1, end);
+        ps.setTimestamp(2, start);
+        ps.setInt(3, id);
         ResultSet rs = ps.executeQuery();
         while(rs.next()) {
             int appointmentId = rs.getInt("Appointment_ID");
@@ -431,6 +434,7 @@ public abstract class AppointmentQuery {
                 appointment = Inventory.allAppointments.get(i);
                 if (appointment.getAppointmentId() == appointmentId) {
                     customerAppointments.add(appointment);
+                    System.out.println(appointmentId);
                 }
             }
         }

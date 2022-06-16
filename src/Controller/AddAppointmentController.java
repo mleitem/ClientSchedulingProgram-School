@@ -158,7 +158,7 @@ public class AddAppointmentController implements Initializable {
 
         // Create an observable list of all appointments that start at the same date/time the user requested.
         // If the list contains any appointments, an error message is triggered.
-        ObservableList<Appointment> customerAppointments = AppointmentQuery.viewConflictingAppointments(sqlDateStart);
+        ObservableList<Appointment> customerAppointments = AppointmentQuery.viewConflictingAppointments(sqlDateStart, sqlDateEnd);
         if(customerAppointments.size() > 0) {
             Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR);
             noSelectionAlert.setTitle("Error");
